@@ -1,7 +1,7 @@
 # todo-group-one
 
 ## ToDO Application 
- It’s a list of tasks you need to complete or things that you want to do. 
+ It’s a list of tasks need to complete or things that you want to do. 
 
  ### Reference
 
