@@ -5,9 +5,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ToDo Application</title>
 </head>
+<style>
+    .container{
+        width: 16%;
+        margin: auto;
+        padding: 30px;
+        background-color: white;
+        height:800px;
+        border: 1px solid black;
+        border-radius: 30px;
+    }
+    .todo-input{
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 30px;
+        gap:10px;
+      
+    }
+    .todo-input   label{
+            font-size: 1.4rem;
+            color:lightslategray;
+        }
+    .todo-input input{
+        width: 320px;
+        height: 37px;
+        background-color: aliceblue;
+        border-radius: 5px;
+    }
+</style>
 <body>
     <div class="container">
+        <!-- todo input field -->
+        <div class="todo-input">
+            <label for="todo">To-do</label>
+            <input type="text" id="list" placeholder="">
+        </div>
         
+        <div class="projects">
+             <h4>Projects</h4>
+
+        </div>
     </div>
 </body>
 </html>
