@@ -83,17 +83,39 @@
         gap: 10px;
         padding: 20px;
     } 
+
     .tag-input i{
         font-size: 1.3rem;
         font-weight: 700;
         color: rgb(74, 154, 205);
         cursor: pointer;
     }
+
     span{
         font-size: 1rem;
         font-weight: 700;
         color: rgb(74, 154, 205);
         padding-left: 10px;
+    }
+
+    .submitBtn button{
+      width:320px;
+      height: 60px;
+      position: absolute;
+      bottom: 35px;
+      left: 50px;
+
+      background-color: rgb(48, 148, 210);
+      color: white;
+      border: none;
+      border-radius:10px;
+      text-align: center;
+      cursor: pointer;
+
+      font-size: 1.2rem;
+      font-weight: 600;
+      padding: 20px;
+      
     }
 </style>
 <body>
@@ -126,7 +148,17 @@
             </div>
         </div>
        
+        <!-- Time input Field -->
+        <!-- <div class="deadline-input">
+            <h4>Deadline</h4>
+            <input type="date" name="deadline">
+        </div> -->
+
+        <!-- Submit Button -->
         
+        <div class="submitBtn">
+            <button onclick="createTodo()">Done</button>
+        </div>
     </div>
 </body>
 </html>
