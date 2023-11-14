@@ -7,6 +7,7 @@
     <title>ToDo Application</title>
 </head>
 <style>
+
     .container{
         width: 17%;
         margin: auto;
@@ -75,7 +76,25 @@
         font-size: 1.3rem;
         border:  1px solid gray;
     }
-   
+    .tag-input{
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 10px;
+        padding: 20px;
+    } 
+    .tag-input i{
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: rgb(74, 154, 205);
+        cursor: pointer;
+    }
+    span{
+        font-size: 1rem;
+        font-weight: 700;
+        color: rgb(74, 154, 205);
+        padding-left: 10px;
+    }
 </style>
 <body>
     <div class="container">
@@ -87,7 +106,8 @@
             <label for="todo">To-do</label>
             <input type="text" id="list" placeholder="">
         </div>
-        <!-- Projects -->
+
+        <!-- Projects DropDown List -->
         <div class="projects">
              <h4>Projects</h4>
              <div class="project-dropDownlist">
@@ -97,6 +117,15 @@
                 </select>
              </div>    
         </div>
+
+        <!-- Add Tag  Field  -->
+        <div class="tag-input">
+            <h4>Tags</h4>
+            <div class="icons">
+                <i class="ri-add-fill"></i><span>Add tags</span>
+            </div>
+        </div>
+       
         
     </div>
 </body>
