@@ -1,15 +1,22 @@
 # todo-group-one
 
+## ToDo Application 
+ It’s a list of tasks need to complete or things that you want to do. 
+ 
 ## Refernce Image - 
-![Todo List UI](https://cdn.dribbble.com/users/1234247/screenshots/10591656/media/f3f703866f3f4107f00f12086750a086.png?resize=1000x750&vertical=center)
+ ![ToDo Application](https://cdn.dribbble.com/users/1234247/screenshots/10591656/media/c266bf38b220327fd4165b3ab9d810a9.png "ToDo Application")
 
 ### Members - 
 1. Akhil
 2. Bhavyashree
 
 ### Responsibilites - 
-#### Akhil -
-- Todo List Screen(1st screen)
+ #### Akhil Varghese
+ - Main Page layout
+ - CSS Design
+ - Todo List Screen(1st screen)
 
-#### Bhavyashree -
-- Create/Add Todo List Screen(2nd screen)
+ #### Bhavyashree D C
+ - Add Section layout
+ - CSS Design
+ - Create/Add Todo List Screen(2nd screen)
