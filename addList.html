@@ -3,138 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.css" integrity="sha512-HXXR0l2yMwHDrDyxJbrMD9eLvPe3z3qL3PPeozNTsiHJEENxx8DH2CxmV05iwG0dwoz5n4gQZQyYLUNt1Wdgfg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>ToDo Application</title>
 </head>
-<style>
-    
-   html,body{
-        margin:0;
-        padding:0;
-        box-sizing: border-box;
-        background-color: rgb(44, 37, 250);
-   }
-
-    section.container{
-        top:50px;
-        width: 80%;
-        max-width: 400px;
-        margin: 30px auto;
-        padding: 20px;
-        background-color: white;
-        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-        height:850px;
-        border:none;
-        border-radius: 30px;
-        position: relative;
-    }
-    .close-icon{
-        position:relative;
-       
-    }
-    .close-icon i{
-        position: absolute;
-        right: 10px;
-        top: 10px;
-        font-size: 1.5rem;
-        font-weight: 700;
-        cursor: pointer;
-    }
-
-    .text-input,
-    .projects,
-    .tag-input,
-    .dateInput-container {
-        display: flex;
-        align-items: flex-start;
-        flex-direction: column;
-        gap: 7px;
-        padding: 8px; 
-        margin-left:19px;
-        
-    }
-
-    .text-input  label{
-            font-size: 1.3rem;
-            color:lightslategray;
-            font-weight: bold;
-            margin-top: 55px;
-    }
-
-    .text-input [type = text]{
-        width: 320px;
-        height: 38px;
-        border-radius: 8px;
-        padding:6px 9px;
-        border:  3px solid rgb(193, 193, 193);
-    }
-
-    input:hover {
-        outline: none; 
-        border: 3px solid #dedddd; 
-    }
-    
-    h4{
-        font-size: 1.2rem;
-        color:lightslategray;
-        font-weight: bold;
-    }
-
-    select{
-        width: 340px;
-        height: 55px;
-        border: none;
-        border-radius: 8px;
-        padding:12px 20px;
-        font-size: 1.1rem;
-        border:  3px solid rgb(193, 193, 193);
-    }
-   
-    .tag-input i{
-        font-size: 1.3rem;
-        font-weight: 700;
-        color: rgb(74, 154, 205);
-        cursor: pointer;
-    }
-
-    span{
-        font-size: 1rem;
-        font-weight: 700;
-        color: rgb(74, 154, 205);
-        padding-left: 10px;
-    }
-
-    .dateInput-container input[type="date"] {
-        /* width:100%; */
-        padding: 12px; 
-        border:3px solid rgb(193, 193, 193);
-        border-radius: 10px;
-    }
-
-    .submitBtn button{
-      width:340px;
-      height: 60px;
-      position: absolute;
-      bottom: 35px;
-      left: 50px;
-
-      background-color: rgb(21, 154, 237);
-      color: white;
-      border: none;
-      border-radius:10px;
-      text-align: center;
-      cursor: pointer;
-
-      font-size: 1.2rem;
-      font-weight: 600;
-      padding: 20px;
-    }
-
-</style>
 <body>
-    <section class="container">
+    <section class="addListContainer">
         <div class="close-icon">
-            <i class="ri-close-line"></i>
+            <i class="ri-close-line" onclick="CloseAddListContainer()"></i>
         </div>
 
         <!-- todo input field -->
@@ -166,7 +42,7 @@
         <div class="dateInput-container">
             <h4>Deadline</h4>
             <div class="date-input">
-                <input type="date" name="deadline" id="deadline" onclick="updateWeekDay()">
+                <input type="date" name="deadline" id="deadline" onchange="updateDayName()">
                 <span id="dayName"></span>
             </div>
         </div>
@@ -177,16 +53,13 @@
         </div>
     </section>
 
+ 
     <script>
 
-        function updateWeekDay() {
-            var inputDate = document.getElementById("deadline").value;
-            var weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-            var dateObj = new Date(inputDate);
-            var dayName = weekDays[dateObj.getDay()];
-
-            document.getElementById('deadline').value = dayName;
-        }
+    function CloseAddListContainer(){
+        document.querySelector('.addListContainer').style.display='none';
+    }
     </script>
+    
 </body>
 </html>
