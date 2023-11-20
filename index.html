@@ -10,8 +10,11 @@
         <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
+        <!-- <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet"> -->
         <!-- <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@600;700&display=swap" rel="stylesheet"> -->
+        <link
+            href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@1,300&family=Work+Sans:wght@400;600;700&display=swap"
+            rel="stylesheet">
         <link rel="stylesheet" href="assets/style.css">
     </head>
 
@@ -21,20 +24,42 @@
 
         <div class="container-main">
 
-            <section>
-                <div class="container-list">
-                    <p class="day-header">Today</p>
-                    <div class="list-item">
-                        <input type="checkbox" name="selectItem" id="" class="selectItem">
-                        <div class="listDetails">
-                            <h4 class="todoName">kfwfbfkk</h4>
-                            <p class="todoType">kjbfwkfbewf</p>
-                            <p class="tag-div">
-                                <span class="todsTag">fdfdf</span>
-                            </p>
+            <section class="container-list">
+                <!-- <div style="position: relative; height:100%;"> -->
+                <p class="day-header">Today</p>
+                <div class="list-item">
+                    <input type="checkbox" name="selectItem" id="selectItem1" class="selectItem">
+                    <label for="selectItem1" class="listDetails">
+                        <h4 class="todoName">Pay for utility services</h4>
+                        <p class="todoType">Home</p>
+                        <div class="tag-div">
+                            <span class="todsTag high">High</span>
                         </div>
+                    </label>
                     </div>
-                </div>
+                    <div class="list-item">
+                        <input type="checkbox" name="selectItem" id="selectItem2" class="selectItem">
+                        <label for="selectItem2" class="listDetails">
+                            <h4 class="todoName">Call with Nency</h4>
+                            <p class="todoType">LMS</p>
+                            <div class="tag-div">
+                                <span class="todsTag low">Low</span>
+                            </div>
+                        </label>
+                        </div>
+                        <div class="list-item">
+                            <input type="checkbox" name="selectItem" id="selectItem3" class="selectItem">
+                            <label for="selectItem3" class="listDetails">
+                                <h4 class="todoName">Coding</h4>
+                                <p class="todoType">Practice</p>
+                                <div class="tag-div">
+                                    <span class="todsTag low">Low</span>
+                                </div>
+                            </label>
+                            </div>
+                        <button type="button" class="add-item">
+                            <i class="ri-add-fill"></i>
+                        </button>
             </section>
 
 
