@@ -1,93 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo List Page</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.css"
+      integrity="sha512-HXXR0l2yMwHDrDyxJbrMD9eLvPe3z3qL3PPeozNTsiHJEENxx8DH2CxmV05iwG0dwoz5n4gQZQyYLUNt1Wdgfg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap"
+      rel="stylesheet"
+    />
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@600;700&display=swap" rel="stylesheet"> -->
+    <link rel="stylesheet" href="assets/style.css" />
+  </head>
 
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Todo List Page</title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.css" integrity="sha512-HXXR0l2yMwHDrDyxJbrMD9eLvPe3z3qL3PPeozNTsiHJEENxx8DH2CxmV05iwG0dwoz5n4gQZQyYLUNt1Wdgfg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
-        <!-- <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@600;700&display=swap" rel="stylesheet"> -->
-        <link rel="stylesheet" href="assets/style.css">
-    </head>
-
-    <body>
-       
+  <body>
     <div class="container">
-
-        <div class="container-main">
-
-            <section>
-                <div class="container-list">
-                    <p class="day-header">Today</p>
-                    <div class="list-item">
-                        <input type="checkbox" name="selectItem" id="" class="selectItem">
-                        <div class="listDetails">
-                            <h4 class="todoName">kfwfbfkk</h4>
-                            <p class="todoType">kjbfwkfbewf</p>
-                            <p class="tag-div">
-                                <span class="todsTag">fdfdf</span>
-                            </p>
-                        </div>
+      <div class="container-main">
+        <section class="container-list">
+         
+            <p class="day-header">Today</p>
+            <div class="list-item">
+                <input type="checkbox" name="selectItem" id="selectItem1" class="selectItem">
+                <label for="selectItem1" class="listDetails">
+                    <h4 class="todoName">Pay for utility services</h4>
+                    <p class="todoType">Home</p>
+                    <div class="tag-div">
+                        <span class="todsTag high">High</span>
                     </div>
-                </div>
-            </section>
+                </label>
+            </div>
 
-
-            <!-- Add New List Page -->
-
-            <section>
-              <div class="addListContainer">
-                    <div class="close-icon">
-                        <i class="ri-close-line" onclick="CloseAddListContainer()"></i>
+            <div class="list-item">
+                <input type="checkbox" name="selectItem" id="selectItem2" class="selectItem">
+                <label for="selectItem2" class="listDetails">
+                    <h4 class="todoName">Call with Nency</h4>
+                    <p class="todoType">LMS</p>
+                    <div class="tag-div">
+                        <span class="todsTag low">Low</span>
                     </div>
+                </label>
+            </div>
 
-                    <!-- todo input field -->
-                    <div class="text-input">
-                        <label for="todo">To-do</label>
-                        <input type="text" id="list" placeholder=" " required />
+            <div class="list-item">
+                <input type="checkbox" name="selectItem" id="selectItem3" class="selectItem">
+                <label for="selectItem3" class="listDetails">
+                    <h4 class="todoName">Coding</h4>
+                    <p class="todoType">Practice</p>
+                    <div class="tag-div">
+                        <span class="todsTag low">Low</span>
                     </div>
+                </label>
+            </div>
 
-                    <!-- Projects DropDown List -->
-                    <div class="projects">
-                        <h4>Projects</h4>
-                        <div class="project-dropDownlist">
-                            <select id="projectList">
-                                <option>Home</option>
-                                <option>Work</option>
-                            </select>
-                        </div>    
-                    </div>
+            <button type="button" class="add-item" onclick="addList()">
+                <i class="ri-add-fill"></i>
+            </button>
 
-                    <!-- Add Tag  Field  -->
-                    <div class="tag-input">
-                        <h4>Tags</h4>
-                        <div class="icons">
-                            <i class="ri-add-fill"></i><span>Add tags</span>
-                        </div>
-                    </div>
-                
-                    <!-- Time input Field -->
-                    <div class="dateInput-container">
-                        <h4>Deadline</h4>
-                        <div class="date-input">
-                            <input type="date" name="deadline" id="deadline" onchange="updateDayName()">
-                            <span id="dayName"></span>
-                        </div>
-                    </div>
+        </section>
 
-                    <!-- Submit Button -->
-                    <div class="submitBtn">
-                        <button onclick="createTodo()">Done</button>
-                    </div>
-                </div>
-            </section>
-        </div>
+
+
+        <!-- Add New List Page -->
+
+        <section>
+            
+          <div class="add-list-container" style="display:none;">
+            <div class="close-icon">
+              <i class="ri-close-line" onclick="CloseAddListContainer()"></i>
+            </div>
+
+            <!-- todo input field -->
+            <div class="text-input">
+              <label for="todo">To-do</label>
+              <input type="text" id="list" placeholder=" " required />
+            </div>
+
+            <!-- Projects DropDown List -->
+            <div class="projects">
+              <h4>Projects</h4>
+              <div class="project-dropdown-list">
+                <select id="projectList">
+                  <option>Home</option>
+                  <option>Work</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Add Tag  Field  -->
+            <div class="tag-input">
+              <h4>Tags</h4>
+              <div class="icons">
+                <i class="ri-add-fill"></i><span>Add tags</span>
+              </div>
+            </div>
+
+            <!-- Time input Field -->
+            <div class="date-input-container">
+              <h4>Deadline</h4>
+              <div class="date-input">
+                <input
+                  type="date"
+                  name="deadline"
+                  id="deadline"
+
+                />
+                <span id="dayName"></span>
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="submitBtn">
+              <button onclick="createTodo()">Done</button>
+            </div>
+          </div>
+        </section>
+      </div>
     </div>
-        <script src="assets/script.js"></script>
-    </body>
+
+    <script src="assets/script.js"></script>
+
+  </body>
 </html>
