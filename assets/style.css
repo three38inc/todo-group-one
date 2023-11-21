@@ -41,8 +41,9 @@
 }
 .day-header {
   /* margin: 0; */
-  font-size: 35px;
+  font-size: 27px;
   font-family: "Work Sans", sans-serif;
+  padding:20px 10px;
   font-weight: 700;
   /* margin-bottom: ; */
 }

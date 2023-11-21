@@ -1,3 +1,4 @@
+
 function addList() {
   document.querySelector(".add-list-container").style.display = "";
 }
@@ -50,13 +51,16 @@ newTask()
 var addTask = document.getElementById('addBtn')
 
 addTask.addEventListener('click', function () {
+
    const taskInput = document.getElementById('inputText')
    const taskType = document.getElementById('projectList')
+   const dateInput = document.getElementById('deadline')
    
     var selectedOption = taskType.options[taskType.selectedIndex]
 
     var selectedValue = selectedOption.value
     var inputValue = taskInput.value
+    var selectedDate = dateInput.value
     
     if (inputValue === ""){
       alert ("Please enter a valid task")
@@ -68,8 +72,28 @@ addTask.addEventListener('click', function () {
       tag: "Low",
     });
     
+    newTask();
+
     taskInput.value = ''
     taskType.value = 'Home'
 
-    newTask();
+    
+
+    displaySelectedDate(selectedDate)
+
+    dateInput.value = ''
+   
 })
+
+function displaySelectedDate(date){
+  
+  const dateFormatOptions = {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+}
+
+const dateFormat = new Intl.DateTimeFormat('en-GB', dateFormatOptions)
+document.getElementById('dateValue').innerHTML = dateFormat.format(new Date(date))
+
+}
