@@ -1,12 +1,15 @@
 
+// comments ...
 function addList() {
   document.querySelector(".add-list-container").style.display = "";
 }
 
-function CloseAddListContainer() {
+// comments ...
+function closeAddListContainer() {
   document.querySelector(".add-list-container").style.display = "none";
 }
 
+// comments ...
 var taskList = [];
 
 taskList.push({
@@ -23,6 +26,7 @@ taskList.push({
 
 const tasks = document.getElementById("taskList");
 
+// comments ...
 function newTask() {
   let newString = "";
 
