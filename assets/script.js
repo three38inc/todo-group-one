@@ -1,6 +1,8 @@
 
-function addList() {
-  document.querySelector(".add-list-container").style.display = "";
+function addNewList() {
+    var addListContainer = document.querySelector(".add-list-container");
+      addListContainer.style.display = "block";
+  
 }
 
 function CloseAddListContainer() {
@@ -13,12 +15,6 @@ taskList.push({
   todoName: "Do yoga",
   type: "Home",
   tag: "High",
-});
-
-taskList.push({
-  todoName: "Do Dishes",
-  type: "Home",
-  tag: "Low",
 });
 
 const tasks = document.getElementById("taskList");
@@ -41,29 +37,30 @@ function newTask() {
         </div>
     `;
   });
-  tasks.innerHTML = newString
+  tasks.innerHTML = newString;
 }
 
-newTask()
+newTask();
 
 // Add Task Functionality
 
-var addTask = document.getElementById('addBtn')
+var addTask = document.getElementById('addBtn');
 
 addTask.addEventListener('click', function () {
 
-   const taskInput = document.getElementById('inputText')
-   const taskType = document.getElementById('projectList')
-   const dateInput = document.getElementById('deadline')
+   const taskInput = document.getElementById('inputText');
+   const taskType = document.getElementById('projectList');
+   const dateInput = document.getElementById('deadline');
    
-    var selectedOption = taskType.options[taskType.selectedIndex]
+    var selectedOption = taskType.options[taskType.selectedIndex];
 
-    var selectedValue = selectedOption.value
-    var inputValue = taskInput.value
-    var selectedDate = dateInput.value
+    console.log(selectedOption);
+    var selectedValue = selectedOption.value;
+    var inputValue = taskInput.value;
+    var selectedDate = dateInput.value;
     
     if (inputValue === ""){
-      alert ("Please enter a valid task")
+      alert ("Please enter a valid task");
     }
 
     taskList.push({
@@ -74,14 +71,14 @@ addTask.addEventListener('click', function () {
     
     newTask();
 
-    taskInput.value = ''
-    taskType.value = 'Home'
+    taskInput.value = '';
+    taskType.value = 'Home';
 
     
 
-    displaySelectedDate(selectedDate)
+    displaySelectedDate(selectedDate);
 
-    dateInput.value = ''
+    dateInput.value = '';
    
 })
 
@@ -93,7 +90,6 @@ function displaySelectedDate(date){
     day: "numeric",
 }
 
-const dateFormat = new Intl.DateTimeFormat('en-GB', dateFormatOptions)
-document.getElementById('dateValue').innerHTML = dateFormat.format(new Date(date))
-
+const dateFormat = new Intl.DateTimeFormat('en-GB', dateFormatOptions);
+document.getElementById('dateValue').innerHTML = dateFormat.format(new Date(date));
 }
