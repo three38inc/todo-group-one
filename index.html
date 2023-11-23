@@ -1,60 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Todo List Page</title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.css" integrity="sha512-HXXR0l2yMwHDrDyxJbrMD9eLvPe3z3qL3PPeozNTsiHJEENxx8DH2CxmV05iwG0dwoz5n4gQZQyYLUNt1Wdgfg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <!-- <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet"> -->
-        <!-- <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@600;700&display=swap" rel="stylesheet"> -->
-        <link
-            href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@1,300&family=Work+Sans:wght@400;600;700&display=swap"
-            rel="stylesheet">
-        <link rel="stylesheet" href="assets/style.css">
-    </head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo List Page</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.css"
+      integrity="sha512-HXXR0l2yMwHDrDyxJbrMD9eLvPe3z3qL3PPeozNTsiHJEENxx8DH2CxmV05iwG0dwoz5n4gQZQyYLUNt1Wdgfg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet"> -->
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@600;700&display=swap" rel="stylesheet"> -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@1,300&family=Work+Sans:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/style.css" />
+  </head>
 
-    <body>
+  <body>
     <div class="container">
       <div class="container-main">
         <section>
-            <div class="container-list">
-                <div class="day-header" id ="dateValue">Today</div>
+          <div class="container-list">
+            <div class="day-header">Today</div>
+            <div class="date-header" id="dateValue"></div>
 
-                <div class="todo-list-items"  id="taskList">
-                    <div class="list-item">
-                      <input
-                        type="checkbox"
-                        name="selectItem"
-                        id="selectItem1"
-                        class="selectItem"
-                      />
-                      <label for="selectItem1" class="listDetails">
-                        <h4 class="todoName">Pay for utility services</h4>
-                        <p class="todoType">Home</p>
-                        <div class="tag-div">
-                          <span class="todoTag high">High</span>
-                        </div>
-                      </label>
-                    </div>
-                </div>
+            <div class="todo-list-items" id="taskList">
       
-              <button type="button" class="add-item" onclick="addNewList()">
-                 <i class="ri-add-fill"></i>
-              </button>
-            
             </div>
-        </section>
+        
+            <button type="button" class="add-item" onclick="addNewList()">
+              <i class="ri-add-fill"></i>
+            </button>
+          </div>
+       </section>
 
         <!-- Add New List Page -->
 
         <section>
           <div class="add-list-container">
             <div class="close-icon">
-              <i class="ri-close-line" onclick="CloseAddListContainer()"></i>
+              <i class="ri-close-line" onclick="closeAddListContainer()"></i>
             </div>
 
             <!-- todo input field -->
@@ -68,8 +64,8 @@
               <h4>Projects</h4>
               <div class="project-dropdown-list">
                 <select id="projectList">
-                  <option value = "home">Home</option>
-                  <option value = "work">Work</option>
+                  <option value="home">Home</option>
+                  <option value="work">Work</option>
                 </select>
               </div>
             </div>
@@ -78,7 +74,7 @@
             <div class="tag-input">
               <h4>Tags</h4>
               <div class="icons">
-                <i class="ri-add-fill"></i><span>Add tags</span>
+                <i class="ri-add-fill" onclick="selectTagLine()"></i><span>Add tags</span>
               </div>
             </div>
 
