@@ -44,11 +44,13 @@
 .list-item {
   background: white;
   opacity: 1;
+
   display: flex;
-  justify-content: start;
-  gap:30px;
   align-items: center;
-  padding: 15px 10px;
+  justify-content: space-between;
+
+  
+  padding: 15px 25px;
   border-radius: 7px;
   box-shadow: 0px 0px 1px 0px #dfdfe0;
   margin: 10px 0px;
@@ -56,27 +58,18 @@
   cursor: pointer;
 }
 
-.list-item.completed {
-  background-color: #39a20a; /* Green color for completed tasks */
-  color: white; /* Text color for completed tasks */
+.list-item i{
+  font-size: 1.2rem;
+  font-weight: 600;
 }
 
-.list-item.completed .todoName {
-  text-decoration: line-through; /* Add line-through style to todoName in completed tasks */
+.list-item input[type="checkbox"]:checked + label h4.todoName {
+  text-decoration: line-through;
+  color: lightslategrey;
 }
-.list-item button{
-  padding:10px 15px;
-  background-color: red;
-  color: white;
-  font-size: 1.1rem;
-  font-weight: 600;
-  cursor: pointer;
-  border-radius: 10px;
-  max-height: 38px;
-  margin-left:45px;
-  line-height: 20px;
-  text-align: center;
-  vertical-align: middle;
+
+.list-item input[type="checkbox"]{
+  display: block;
 }
 
 .list-item:hover {
@@ -88,22 +81,23 @@
 }
 
 
-.selectItem {
+.selectItem { 
   margin-bottom: auto;
   accent-color: #39a20a;
   width: 15px;
   height: 15px;
   cursor: pointer;
+
 }
 
 .todoName {
   margin: 0;
-  font: 600 14px "Work Sans", sans-serif;
+  font: 600 19px "Work Sans", sans-serif;
 }
 
 .todoType {
   margin: 0;
-  font: 400 12px "Work Sans", sans-serif;
+  font: 400 15px "Work Sans", sans-serif;
   color: #c8c8c8;
 }
 

@@ -15,12 +15,12 @@ taskList.push({
   tag: "High",
   status:"Pending",
 });
-taskList.push({
-  todoName: "Do dishes",
-  type: "Home",
-  tag: "High",
-  status:"Pending",
-});
+// taskList.push({
+//   todoName: "Do dishes",
+//   type: "Home",
+//   tag: "High",
+//   status:"Pending",
+// });
 
 const tasks = document.getElementById("taskList");
 
@@ -31,15 +31,15 @@ function newTask() {
 
     newString += `
         <div class="list-item">
-            <input type="checkbox" name="selectItem" id="selectItem${index}" class="selectItem" onchange = updateTaskStatus(this)>
+            <input type="checkbox" name="selectItem" id="selectItem${index}" class="selectItem" >
             <label for="selectItem" class="listDetails">
-                <h4 class="todoName ${list.status === 'Completed' ? 'completed' : ''}">${list.todoName}</h4>
+                <h4 class="todoName ">${list.todoName}</h4>
                 <p class="todoType">${list.type}</p>
                 <div class="tag-div">
                     <span class="todoTag high">${list.tag}</span>
                 </div>
             </label>
-        <button>${list.status}</button>
+            <i class="ri-delete-bin-6-fill" onclick = "deleteTask(${index})"></i>
         </div>
     `;
   });
@@ -87,20 +87,25 @@ addTask.addEventListener("click", function () {
   dateInput.value = "";
 });
 
-function updateTaskStatus(checkbox) {
-  const index = parseInt(checkbox.id.slice(-1), 10);
-  
-  const todoName = document.querySelector(`#selectItem${index} + label .todoName`);
-
-  if (checkbox.checked) {
-    taskList[index].status = 'Completed';
-    todoName.classList.add('completed');
-  } else {
-    taskList[index].status = 'Pending';
-    todoName.classList.remove('completed');
-  }
-  newTask();
+function deleteTask(index){
+       taskList.splice(index,1);
+       newTask();
 }
+
+// function updateTaskStatus(checkbox) {
+//   const index = parseInt(checkbox.id.slice(-1), 10);
+  
+//   const todoName = document.querySelector(`#selectItem${index} + label .todoName`);
+
+//   if (checkbox.checked) {
+//     taskList[index].status = 'Completed';
+//     todoName.classList.add('completed');
+//   } else {
+//     taskList[index].status = 'Pending';
+//     todoName.classList.remove('completed');
+//   }
+//   newTask();
+// }
 
 let today = new Date();
   const dateFormatOptions = {
