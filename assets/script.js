@@ -1,11 +1,74 @@
+// Display Today Date & Time
+
+  const dateFormatOptions = {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+  };
+
+  const timeFormatOptions = {
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+    hour12: true,
+  };
+
+  const dateFormat = new Intl.DateTimeFormat("en-GB", dateFormatOptions);
+  const timeFormat = new Intl.DateTimeFormat("en-GB", timeFormatOptions);
+  
+setInterval(() =>{
+
+  let today = new Date();
+
+  document.getElementById("dateValue").innerHTML = dateFormat.format(today);
+  document.getElementById("timeValue").innerHTML = timeFormat.format(today);
+
+}, 1000)
+  
+
+// Display Todo List 
+
 function addNewList() {
-  var addListContainer = document.querySelector(".add-list-container");
-  addListContainer.style.display = "block";
+    var addListContainer = document.querySelector(".add-list-container");
+    addListContainer.style.display = "block";
+
+
+    var addTask = document.getElementById("addBtn");
+
+    addTask.addEventListener("click", function () {
+    const taskInput = document.getElementById("inputText");
+    const taskType = document.getElementById("projectList");
+
+    var selectedOption = taskType.options[taskType.selectedIndex];
+
+    console.log(selectedOption);
+    var selectedValue = selectedOption.value;
+    var inputValue = taskInput.value;
+    
+
+    if (inputValue === "") {
+      alert("Please enter a valid task");
+    }
+
+  const listITems = {
+      todoName: inputValue,
+      type: selectedValue,
+      tag: "Low",
+      status: "Not Started",
+    };
+
+    taskList.unshift(listITems);
+
+    renderTask();
+
+    taskInput.value = "";
+    taskType.value = "Home";
+    dateInput.value = "";
+});
 }
 
-function closeAddListContainer() {
-  document.querySelector(".add-list-container").style.display = "none";
-}
+
+// Array creation to dynamic insertion of values
 
 var taskList = [];
 
@@ -15,16 +78,11 @@ taskList.push({
   tag: "High",
   status:"Pending",
 });
-// taskList.push({
-//   todoName: "Do dishes",
-//   type: "Home",
-//   tag: "High",
-//   status:"Pending",
-// });
+
 
 const tasks = document.getElementById("taskList");
 
-function newTask() {
+function renderTask() {
   let newString = "";
 
   taskList.forEach((list,index) => {
@@ -45,74 +103,20 @@ function newTask() {
   });
   tasks.innerHTML = newString;
 
-  
 }
 
-newTask();
+renderTask();
 
-// Add Task Functionality
-
-var addTask = document.getElementById("addBtn");
-
-addTask.addEventListener("click", function () {
-  const taskInput = document.getElementById("inputText");
-  const taskType = document.getElementById("projectList");
-  // const dateInput = document.getElementById("deadline");
-
-  var selectedOption = taskType.options[taskType.selectedIndex];
-
-  console.log(selectedOption);
-  var selectedValue = selectedOption.value;
-  var inputValue = taskInput.value;
-  // var selectedDate = dateInput.value;
-
-  if (inputValue === "") {
-    alert("Please enter a valid task");
-  }
-
-  taskList.push({
-    todoName: inputValue,
-    type: selectedValue,
-    tag: "Low",
-    status: "Not Started",
-  });
-
-  newTask();
-
-  taskInput.value = "";
-  taskType.value = "Home";
-
-  // displaySelectedDate(selectedDate);
-
-  dateInput.value = "";
-});
+// Delete TodoList  
 
 function deleteTask(index){
        taskList.splice(index,1);
-       newTask();
+       renderTask();
 }
 
-// function updateTaskStatus(checkbox) {
-//   const index = parseInt(checkbox.id.slice(-1), 10);
-  
-//   const todoName = document.querySelector(`#selectItem${index} + label .todoName`);
+// close Add list container
 
-//   if (checkbox.checked) {
-//     taskList[index].status = 'Completed';
-//     todoName.classList.add('completed');
-//   } else {
-//     taskList[index].status = 'Pending';
-//     todoName.classList.remove('completed');
-//   }
-//   newTask();
-// }
+function closeAddListContainer() {
+  document.querySelector(".add-list-container").style.display = "none";
+}
 
-let today = new Date();
-  const dateFormatOptions = {
-    weekday: "long",
-    month: "long",
-    day: "numeric",
-  };
-
-  const dateFormat = new Intl.DateTimeFormat("en-GB", dateFormatOptions);
-  document.getElementById("dateValue").innerHTML = dateFormat.format(today);
