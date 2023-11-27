@@ -1,5 +1,6 @@
 // Display Today Date & Time
 
+
   const dateFormatOptions = {
     weekday: "long",
     month: "long",
@@ -41,21 +42,35 @@ function addNewList() {
 
     var selectedOption = taskType.options[taskType.selectedIndex];
 
-    console.log(selectedOption);
+   
     var selectedValue = selectedOption.value;
     var inputValue = taskInput.value;
     
 
+    const lowTags = document.getElementById('lowTag');
+    const highTags = document.getElementById('highTag');
+
+    var selectedTag;
+
+    if(lowTags.checked){
+       selectedTag = lowTags.value;
+    }else if(highTags.checked){
+      selectedTag = highTags.value;
+    }else{
+      selectedTag = "Low";
+    }
+      
+      
     if (inputValue === "") {
       alert("Please enter a valid task");
     }
 
-  const listITems = {
-      todoName: inputValue,
-      type: selectedValue,
-      tag: "Low",
-      status: "Not Started",
-    };
+    const listITems = {
+        todoName: inputValue,
+        type: selectedValue,
+        tag: "Low",
+        status: "Not Started",
+      };
 
     taskList.unshift(listITems);
 
@@ -69,7 +84,6 @@ function addNewList() {
 
 
 // Array creation to dynamic insertion of values
-
 var taskList = [];
 
 taskList.push({
@@ -82,7 +96,6 @@ taskList.push({
 
 const tasks = document.getElementById("taskList");
 
-function renderTask() {
   let newString = "";
 
   taskList.forEach((list,index) => {
@@ -120,3 +133,8 @@ function closeAddListContainer() {
   document.querySelector(".add-list-container").style.display = "none";
 }
 
+function selectTagLine(){
+     tagLines = document.querySelector(".tag-input .tagItems");
+   
+     tagLines.classList.toggle('hidden');
+}
