@@ -1,6 +1,5 @@
 // Display Today Date & Time
 
-
   const dateFormatOptions = {
     weekday: "long",
     month: "long",
@@ -27,7 +26,7 @@ setInterval(() =>{
 }, 1000)
   
 
-// Display Todo List 
+// Add new Todo List
 
 function addNewList() {
     var addListContainer = document.querySelector(".add-list-container");
@@ -39,13 +38,17 @@ function addNewList() {
     addTask.addEventListener("click", function () {
     const taskInput = document.getElementById("inputText");
     const taskType = document.getElementById("projectList");
-
-    var selectedOption = taskType.options[taskType.selectedIndex];
-
-   
-    var selectedValue = selectedOption.value;
-    var inputValue = taskInput.value;
+    const deadline =  document.getElementById("deadline");
     
+    if (!taskInput.value) {
+      alert("Please enter a valid task");
+      return;
+    }   
+
+    var inputValue = taskInput.value;
+    var selectedOption = taskType.options[taskType.selectedIndex];
+    var selectedValue = selectedOption.value;
+    var selectedDate = deadline.value;
 
     const lowTags = document.getElementById('lowTag');
     const highTags = document.getElementById('highTag');
@@ -53,23 +56,19 @@ function addNewList() {
     var selectedTag;
 
     if(lowTags.checked){
-       selectedTag = lowTags.value;
+      selectedTag = lowTags.value;
     }else if(highTags.checked){
       selectedTag = highTags.value;
     }else{
       selectedTag = "Low";
     }
       
-      
-    if (inputValue === "") {
-      alert("Please enter a valid task");
-    }
-
     const listITems = {
         todoName: inputValue,
         type: selectedValue,
         tag: "Low",
-        status: "Not Started",
+        deadline:selectedDate,
+        status: "pending",
       };
 
     taskList.unshift(listITems);
@@ -78,47 +77,65 @@ function addNewList() {
 
     taskInput.value = "";
     taskType.value = "Home";
-    dateInput.value = "";
+    deadline.value = "";
 });
 }
 
 
 // Array creation to dynamic insertion of values
+
 var taskList = [];
 
 taskList.push({
+  Id: 1,
   todoName: "Do yoga",
   type: "Home",
   tag: "High",
-  status:"Pending",
+  deadline:'2023-11-23',
+  status:"pending",
 });
 
+// Display All Todo Lists 
 
-const tasks = document.getElementById("taskList");
+function renderTask(){
+
+  const tasks = document.getElementById("taskLists");
 
   let newString = "";
 
   taskList.forEach((list,index) => {
 
+    const formatDate = new Intl.DateTimeFormat("en-GB",{
+      month: "short",
+      day: "2-digit",
+    }).format(new Date(list.deadline));
+
     newString += `
-        <div class="list-item">
-            <input type="checkbox" name="selectItem" id="selectItem${index}" class="selectItem" >
-            <label for="selectItem" class="listDetails">
+        <div class="list-item ${list.Id} ${list.status}">
+            <input type="checkbox" name="selectItem" id="selectItem${index}" class="selectItems" >
+            <div class="taskDeadLine">
+                    <div class="month">${formatDate.split(" ")[1]}</div>
+                    <div class="date">${formatDate.split(" ")[0]}</div>
+            </div>
+            <label for="selectItems" class="listDetails"> 
                 <h4 class="todoName ">${list.todoName}</h4>
                 <p class="todoType">${list.type}</p>
                 <div class="tag-div">
                     <span class="todoTag high">${list.tag}</span>
                 </div>
             </label>
-            <i class="ri-delete-bin-6-fill" onclick = "deleteTask(${index})"></i>
+            <i class="ri-delete-bin-line" onclick = "deleteTask(${index})"></i>
         </div>
     `;
   });
+
   tasks.innerHTML = newString;
 
 }
 
 renderTask();
+
+
 
 // Delete TodoList  
 
@@ -133,8 +150,15 @@ function closeAddListContainer() {
   document.querySelector(".add-list-container").style.display = "none";
 }
 
+// Display radio buttons to select Tag Name 
+
 function selectTagLine(){
      tagLines = document.querySelector(".tag-input .tagItems");
-   
-     tagLines.classList.toggle('hidden');
+     tagLines.style.display = "flex";
+     tagLines.style.marginTop = "20px";
+     tagLines.style.gap = "10px"
 }
+
+
+
+   
