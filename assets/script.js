@@ -25,6 +25,8 @@ setInterval(() =>{
 
 }, 1000)
   
+// Display all TaskLists 
+
 function displayTaskList(value,index){
 
   const formatDate = new Intl.DateTimeFormat("en-GB",{
@@ -56,9 +58,9 @@ function displayTaskList(value,index){
 // Add new Todo List
 
 function addNewList() {
+
     var addListContainer = document.querySelector(".add-list-container");
     addListContainer.style.display = "block";
-
 
     var addTask = document.getElementById("addBtn");
 
@@ -123,15 +125,34 @@ taskList.push({
   status:"completed", 
 });
 
+taskList.push({
+  todoName: "Do Dishes",
+  type: "Home",
+  tag: "Low",
+  deadline:'2023-11-28',
+  status:"pending", 
+});
 
-// Display All Todo Lists 
+taskList.push({
+  todoName: "Meeting at 1PM",
+  type: "Work",
+  tag: "High",
+  deadline:'2023-11-28',
+  status:"completed", 
+});
+// Filtering & sorting task based on status & date 
+const tasks = document.getElementById("taskLists");
 
 function renderTask(){
 
-  const tasks = document.getElementById("taskLists");
-
   let newString = "";
-   
+  
+  taskList.sort(function (a,b){
+      const aDate = new Date(a.date);
+      const bDate = new Date(b.date);
+      return aDate - bDate ;
+  });
+
   const pendingTask = taskList.filter(list => list.status != 'completed');
   const completeTask = taskList.filter(list => list.status === 'completed');
  
@@ -151,7 +172,7 @@ function renderTask(){
  
 }
 
-// toggle 
+// toggle task status 
 
 function changeTaskStatus(index) {
   const checkbox = document.getElementById(`selectItem${index}`);
