@@ -1,3 +1,5 @@
+// import savedTasks from './data/tasks.json' assert {type :'json'}
+
 // Display Today Date & Time
 
   const dateFormatOptions = {
@@ -105,15 +107,14 @@ function addNewList() {
 
     renderTask();
 
-    console.log(taskList.status);
-
     taskInput.value = "";
     taskType.value = "Home";
     deadline.value = "";
 });
 }
 
-// Array creation to dynamic insertion of values
+
+// creating array to dynamically insert the values
 
 var taskList = [];
 
@@ -137,9 +138,11 @@ taskList.push({
   todoName: "Meeting at 1PM",
   type: "Work",
   tag: "High",
-  deadline:'2023-11-28',
+  deadline:'2023-11-08',
   status:"completed", 
 });
+
+
 // Filtering & sorting task based on status & date 
 const tasks = document.getElementById("taskLists");
 
@@ -148,12 +151,14 @@ function renderTask(){
   let newString = "";
   
   taskList.sort(function (a,b){
-      const aDate = new Date(a.date);
-      const bDate = new Date(b.date);
+      const aDate = new Date(a.deadline);
+      const bDate = new Date(b.deadline);
       return aDate - bDate ;
   });
 
-  const pendingTask = taskList.filter(list => list.status != 'completed');
+  const pendingTask = taskList.filter(function(list){
+      return list.status != 'completed' ;
+  });
   const completeTask = taskList.filter(list => list.status === 'completed');
  
   pendingTask.forEach((list,index) => {
