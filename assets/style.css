@@ -66,9 +66,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   
-  padding: 15px 25px;
+  padding: 15px 20px;
   border-radius: 7px;
   box-shadow: 0px 0px 1px 0px #dfdfe0;
   margin: 10px 0px;
@@ -106,8 +105,11 @@
   cursor: pointer;
 }
 
-
-.selectItem { 
+.completed .todoName{
+  text-decoration: line-through;
+  color: lightslategray;
+}
+.selectItems { 
   margin-bottom: auto;
   accent-color: #39a20a;
   width: 15px;
@@ -146,6 +148,26 @@
 
 .tag-div {
   margin: 10px 0 0;
+}
+
+.taskDeadLine{
+  background-color: #f7f7fe;
+  width:43px;
+}
+
+.taskDeadLine .month{
+ background-color: #1292ed;
+ color: white;
+ text-align: center;
+ padding:3px;
+ font-size: 17px;
+}
+
+.taskDeadLine .date{
+  text-align: center;
+  padding:6px;
+  font-size: 19px;
+  font-weight: 600;
 }
 
 .add-item {
@@ -267,6 +289,9 @@
   cursor: pointer;
 }
 
+.tag-input .tagItems{
+   display: none;
+}
 .date-input-container input[type="date"] {
   font-size: 1rem;
   font-weight: 510;

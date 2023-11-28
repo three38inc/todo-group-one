@@ -1,5 +1,6 @@
-// Display Today Date & Time
+// import savedTasks from './data/tasks.json' assert {type :'json'}
 
+// Display Today Date & Time
 
   const dateFormatOptions = {
     weekday: "long",
@@ -26,50 +27,80 @@ setInterval(() =>{
 
 }, 1000)
   
+// Display all TaskLists 
 
-// Display Todo List 
+function displayTaskList(value,index){
+
+  const formatDate = new Intl.DateTimeFormat("en-GB",{
+    month: "short",
+    day: "2-digit",
+  }).format(new Date(value.deadline));
+
+  const completedClass = value.status === 'completed' ? 'completed' :'';
+
+   return `
+  <div class="list-item ${value.status}">
+      <input type="checkbox" name="selectItem" id="selectItem${index}" class="selectItems" onchange="changeTaskStatus(${index})" ${value.status === 'completed' ? 'checked' : ''}>
+      <div class="taskDeadLine">
+              <div class="month">${formatDate.split(" ")[1]}</div>
+              <div class="date">${formatDate.split(" ")[0]}</div>
+      </div>
+      <label for="selectItems" class="listDetails"> 
+          <h4 class="todoName ${completedClass}">${value.todoName}</h4>
+          <p class="todoType">${value.type}</p>
+          <div class="tag-div">
+              <span class="todoTag high">${value.tag}</span>
+          </div>
+      </label>
+      <i class="ri-delete-bin-line" onclick = "deleteTask(${index})"></i>
+  </div>
+`
+}
+
+// Add new Todo List
 
 function addNewList() {
+
     var addListContainer = document.querySelector(".add-list-container");
     addListContainer.style.display = "block";
-
 
     var addTask = document.getElementById("addBtn");
 
     addTask.addEventListener("click", function () {
     const taskInput = document.getElementById("inputText");
     const taskType = document.getElementById("projectList");
-
-    var selectedOption = taskType.options[taskType.selectedIndex];
-
-   
-    var selectedValue = selectedOption.value;
-    var inputValue = taskInput.value;
+    const deadline =  document.getElementById("deadline");
     
+    if (!taskInput.value) {
+      alert("Please enter a valid task");
+      return;
+    }   
+
+    var inputValue = taskInput.value;
+    var selectedOption = taskType.options[taskType.selectedIndex];
+    var selectedValue = selectedOption.value;
+    var selectedDate = deadline.value;
 
     const lowTags = document.getElementById('lowTag');
     const highTags = document.getElementById('highTag');
 
-    var selectedTag;
+    var selectedTag 
 
     if(lowTags.checked){
-       selectedTag = lowTags.value;
+      selectedTag = lowTags.value;
     }else if(highTags.checked){
       selectedTag = highTags.value;
     }else{
       selectedTag = "Low";
     }
       
-      
-    if (inputValue === "") {
-      alert("Please enter a valid task");
-    }
-
     const listITems = {
+
         todoName: inputValue,
         type: selectedValue,
         tag: "Low",
-        status: "Not Started",
+        deadline: selectedDate,
+        status: "pending",
       };
 
     taskList.unshift(listITems);
@@ -78,47 +109,86 @@ function addNewList() {
 
     taskInput.value = "";
     taskType.value = "Home";
-    dateInput.value = "";
+    deadline.value = "";
 });
 }
 
 
-// Array creation to dynamic insertion of values
+// creating array to dynamically insert the values
+
 var taskList = [];
 
 taskList.push({
   todoName: "Do yoga",
   type: "Home",
   tag: "High",
-  status:"Pending",
+  deadline:'2023-11-23',
+  status:"completed", 
+});
+
+taskList.push({
+  todoName: "Do Dishes",
+  type: "Home",
+  tag: "Low",
+  deadline:'2023-11-28',
+  status:"pending", 
+});
+
+taskList.push({
+  todoName: "Meeting at 1PM",
+  type: "Work",
+  tag: "High",
+  deadline:'2023-11-08',
+  status:"completed", 
 });
 
 
-const tasks = document.getElementById("taskList");
+// Filtering & sorting task based on status & date 
+const tasks = document.getElementById("taskLists");
+
+function renderTask(){
 
   let newString = "";
-
-  taskList.forEach((list,index) => {
-
-    newString += `
-        <div class="list-item">
-            <input type="checkbox" name="selectItem" id="selectItem${index}" class="selectItem" >
-            <label for="selectItem" class="listDetails">
-                <h4 class="todoName ">${list.todoName}</h4>
-                <p class="todoType">${list.type}</p>
-                <div class="tag-div">
-                    <span class="todoTag high">${list.tag}</span>
-                </div>
-            </label>
-            <i class="ri-delete-bin-6-fill" onclick = "deleteTask(${index})"></i>
-        </div>
-    `;
+  
+  taskList.sort(function (a,b){
+      const aDate = new Date(a.deadline);
+      const bDate = new Date(b.deadline);
+      return aDate - bDate ;
   });
-  tasks.innerHTML = newString;
 
+  const pendingTask = taskList.filter(function(list){
+      return list.status != 'completed' ;
+  });
+  const completeTask = taskList.filter(list => list.status === 'completed');
+ 
+  pendingTask.forEach((list,index) => {
+
+    newString += displayTaskList(list,index);
+
+  });
+
+  completeTask.forEach((list,index) => {
+
+    newString += displayTaskList(list,index);
+
+  });
+
+  tasks.innerHTML = newString;
+ 
+}
+
+// toggle task status 
+
+function changeTaskStatus(index) {
+  const checkbox = document.getElementById(`selectItem${index}`);
+  const status = checkbox.checked ? 'completed' : 'pending';
+  taskList[index].status = status;
+  
+  renderTask();
 }
 
 renderTask();
+
 
 // Delete TodoList  
 
@@ -133,8 +203,14 @@ function closeAddListContainer() {
   document.querySelector(".add-list-container").style.display = "none";
 }
 
+// Display radio buttons to select Tag Name 
+
 function selectTagLine(){
      tagLines = document.querySelector(".tag-input .tagItems");
-   
-     tagLines.classList.toggle('hidden');
+     tagLines.style.display = "flex";
+     tagLines.style.marginTop = "20px";
+     tagLines.style.gap = "10px"
 }
+
+
+
