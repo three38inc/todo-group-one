@@ -105,8 +105,11 @@
   cursor: pointer;
 }
 
-
-.selectItem { 
+.completed .todoName{
+  text-decoration: line-through;
+  color: lightslategray;
+}
+.selectItems { 
   margin-bottom: auto;
   accent-color: #39a20a;
   width: 15px;
@@ -151,6 +154,7 @@
   background-color: #f7f7fe;
   width:43px;
 }
+
 .taskDeadLine .month{
  background-color: #1292ed;
  color: white;
@@ -164,8 +168,8 @@
   padding:6px;
   font-size: 19px;
   font-weight: 600;
-
 }
+
 .add-item {
   position: absolute;
   bottom: 35px;

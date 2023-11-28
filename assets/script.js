@@ -25,6 +25,33 @@ setInterval(() =>{
 
 }, 1000)
   
+function displayTaskList(value,index){
+
+  const formatDate = new Intl.DateTimeFormat("en-GB",{
+    month: "short",
+    day: "2-digit",
+  }).format(new Date(value.deadline));
+
+  const completedClass = value.status === 'completed' ? 'completed' :'';
+
+   return `
+  <div class="list-item ${value.status}">
+      <input type="checkbox" name="selectItem" id="selectItem${index}" class="selectItems" onchange="changeTaskStatus(${index})" ${value.status === 'completed' ? 'checked' : ''}>
+      <div class="taskDeadLine">
+              <div class="month">${formatDate.split(" ")[1]}</div>
+              <div class="date">${formatDate.split(" ")[0]}</div>
+      </div>
+      <label for="selectItems" class="listDetails"> 
+          <h4 class="todoName ${completedClass}">${value.todoName}</h4>
+          <p class="todoType">${value.type}</p>
+          <div class="tag-div">
+              <span class="todoTag high">${value.tag}</span>
+          </div>
+      </label>
+      <i class="ri-delete-bin-line" onclick = "deleteTask(${index})"></i>
+  </div>
+`
+}
 
 // Add new Todo List
 
@@ -53,7 +80,7 @@ function addNewList() {
     const lowTags = document.getElementById('lowTag');
     const highTags = document.getElementById('highTag');
 
-    var selectedTag;
+    var selectedTag 
 
     if(lowTags.checked){
       selectedTag = lowTags.value;
@@ -64,10 +91,11 @@ function addNewList() {
     }
       
     const listITems = {
+
         todoName: inputValue,
         type: selectedValue,
         tag: "Low",
-        deadline:selectedDate,
+        deadline: selectedDate,
         status: "pending",
       };
 
@@ -75,25 +103,26 @@ function addNewList() {
 
     renderTask();
 
+    console.log(taskList.status);
+
     taskInput.value = "";
     taskType.value = "Home";
     deadline.value = "";
 });
 }
 
-
 // Array creation to dynamic insertion of values
 
 var taskList = [];
 
 taskList.push({
-  Id: 1,
   todoName: "Do yoga",
   type: "Home",
   tag: "High",
   deadline:'2023-11-23',
-  status:"pending",
+  status:"completed", 
 });
+
 
 // Display All Todo Lists 
 
@@ -102,39 +131,37 @@ function renderTask(){
   const tasks = document.getElementById("taskLists");
 
   let newString = "";
+   
+  const pendingTask = taskList.filter(list => list.status != 'completed');
+  const completeTask = taskList.filter(list => list.status === 'completed');
+ 
+  pendingTask.forEach((list,index) => {
 
-  taskList.forEach((list,index) => {
+    newString += displayTaskList(list,index);
 
-    const formatDate = new Intl.DateTimeFormat("en-GB",{
-      month: "short",
-      day: "2-digit",
-    }).format(new Date(list.deadline));
+  });
 
-    newString += `
-        <div class="list-item ${list.Id} ${list.status}">
-            <input type="checkbox" name="selectItem" id="selectItem${index}" class="selectItems" >
-            <div class="taskDeadLine">
-                    <div class="month">${formatDate.split(" ")[1]}</div>
-                    <div class="date">${formatDate.split(" ")[0]}</div>
-            </div>
-            <label for="selectItems" class="listDetails"> 
-                <h4 class="todoName ">${list.todoName}</h4>
-                <p class="todoType">${list.type}</p>
-                <div class="tag-div">
-                    <span class="todoTag high">${list.tag}</span>
-                </div>
-            </label>
-            <i class="ri-delete-bin-line" onclick = "deleteTask(${index})"></i>
-        </div>
-    `;
+  completeTask.forEach((list,index) => {
+
+    newString += displayTaskList(list,index);
+
   });
 
   tasks.innerHTML = newString;
+ 
+}
 
+// toggle 
+
+function changeTaskStatus(index) {
+  const checkbox = document.getElementById(`selectItem${index}`);
+  const status = checkbox.checked ? 'completed' : 'pending';
+  taskList[index].status = status;
+  
+  renderTask();
 }
 
 renderTask();
-
 
 
 // Delete TodoList  
@@ -161,4 +188,3 @@ function selectTagLine(){
 
 
 
-   
