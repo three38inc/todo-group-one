@@ -120,12 +120,12 @@
 
 .todoName {
   margin: 0;
-  font: 600 21px "Work Sans", sans-serif;
+  font: 600 15px "Work Sans", sans-serif;
 }
 
 .todoType {
   margin: 0;
-  font: 400 15px "Work Sans", sans-serif;
+  font: 400 12px "Work Sans", sans-serif;
   color: #bab9b9;
 }
 

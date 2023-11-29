@@ -1,4 +1,4 @@
-// import savedTasks from './data/tasks.json' assert {type :'json'}
+ import savedTasks from './data/tasks.json' assert { type :'json' }
 
 // Display Today Date & Time
 
@@ -40,7 +40,7 @@ function displayTaskList(value,index){
 
    return `
   <div class="list-item ${value.status}">
-      <input type="checkbox" name="selectItem" id="selectItem${index}" class="selectItems" onchange="changeTaskStatus(${index})" ${value.status === 'completed' ? 'checked' : ''}>
+      <input type="checkbox" name="selectItem" id="selectItem${index}" class="selectItems" ${value.status === 'completed' ? 'checked' : ''}>
       <div class="taskDeadLine">
               <div class="month">${formatDate.split(" ")[1]}</div>
               <div class="date">${formatDate.split(" ")[0]}</div>
@@ -52,21 +52,24 @@ function displayTaskList(value,index){
               <span class="todoTag high">${value.tag}</span>
           </div>
       </label>
-      <i class="ri-delete-bin-line" onclick = "deleteTask(${index})"></i>
+      <div class="deleteIcon">
+          <i class="ri-delete-bin-line"></i>
+      </div>
   </div>
 `
 }
 
 // Add new Todo List
 
-function addNewList() {
 
-    var addListContainer = document.querySelector(".add-list-container");
-    addListContainer.style.display = "block";
+  function addNewTask(){
+      var addListContainer = document.querySelector(".add-list-container");
+      addListContainer.style.display = "block";
+  }
+   
+ 
+  function handleAddNewList() {
 
-    var addTask = document.getElementById("addBtn");
-
-    addTask.addEventListener("click", function () {
     const taskInput = document.getElementById("inputText");
     const taskType = document.getElementById("projectList");
     const deadline =  document.getElementById("deadline");
@@ -98,7 +101,7 @@ function addNewList() {
 
         todoName: inputValue,
         type: selectedValue,
-        tag: "Low",
+        tag: selectedTag,
         deadline: selectedDate,
         status: "pending",
       };
@@ -109,38 +112,42 @@ function addNewList() {
 
     taskInput.value = "";
     taskType.value = "Home";
+    highTags.checked = false;
+    lowTags.checked = false;
     deadline.value = "";
-});
+
 }
 
 
 // creating array to dynamically insert the values
 
-var taskList = [];
+var taskList = savedTasks;
 
-taskList.push({
-  todoName: "Do yoga",
-  type: "Home",
-  tag: "High",
-  deadline:'2023-11-23',
-  status:"completed", 
-});
+// [
+//   {
+//        "todoName": "Do yoga",
+//        "type": "Home",
+//        "tag": "High",
+//        "deadline":"2023-11-23",
+//        "status":"completed"
+//    },
+     
+//    {
+//        "todoName": "Do Dishes",
+//        "type": "Home",
+//        "tag": "Low",
+//        "deadline":"2023-11-28",
+//        "status":"pending"
+//    }
+//   ]
 
-taskList.push({
-  todoName: "Do Dishes",
-  type: "Home",
-  tag: "Low",
-  deadline:'2023-11-28',
-  status:"pending", 
-});
-
-taskList.push({
-  todoName: "Meeting at 1PM",
-  type: "Work",
-  tag: "High",
-  deadline:'2023-11-08',
-  status:"completed", 
-});
+// taskList.push({
+//   todoName: "Meeting at 1PM",
+//   type: "Work",
+//   tag: "High",
+//   deadline:'2023-11-08',
+//   status:"completed", 
+// });
 
 
 // Filtering & sorting task based on status & date 
@@ -174,26 +181,70 @@ function renderTask(){
   });
 
   tasks.innerHTML = newString;
- 
+  
+  // Adding Event Listeners to each buttons or icons
+
+  const addNewList = document.getElementById('addNewListBtn');
+  addNewList.addEventListener('click', addNewTask);
+
+
+  var addTask = document.getElementById("addBtn");
+  addTask.addEventListener("click", handleAddNewList);
+
+  // tagLine 
+
+  const addTag = document.querySelectorAll('.add-icons');
+
+  addTag.forEach(tagLine => tagLine.addEventListener('click',selectTagLine));
+  
+   // close icon
+
+   const closeIcon = document.getElementById('closeIcon');
+   closeIcon.addEventListener('click',closeAddListContainer);
+
+  // delete icon event listener
+   
+  const deleteBtns = document.querySelectorAll('.deleteIcon');
+  deleteBtns.forEach((deleteList, index) => {
+    deleteList.addEventListener('click', () => deleteTasks(index));
+  });
+
+
+  const checkboxes = document.querySelectorAll('.selectItems');
+    checkboxes.forEach((checkbox, index) => {
+      checkbox.addEventListener('onchange', () => changeTaskStatus(index));
+  });
+
+
 }
 
 // toggle task status 
 
 function changeTaskStatus(index) {
+  console.log(`Attempting to change status of task at index ${index}`);
   const checkbox = document.getElementById(`selectItem${index}`);
-  const status = checkbox.checked ? 'completed' : 'pending';
-  taskList[index].status = status;
-  
-  renderTask();
+  if (checkbox) {
+    const status = checkbox.checked ? 'completed' : 'pending';
+    console.log(`Changing status to ${status}`);
+    taskList[index].status = status;
+    renderTask();
+  } else {
+    console.log(`Checkbox not found for index ${index}`);
+  }
 }
+
+
+
 
 renderTask();
 
 
 // Delete TodoList  
 
-function deleteTask(index){
+function deleteTasks(index){
+  console.log(index);
        taskList.splice(index,1);
+
        renderTask();
 }
 
@@ -206,10 +257,12 @@ function closeAddListContainer() {
 // Display radio buttons to select Tag Name 
 
 function selectTagLine(){
-     tagLines = document.querySelector(".tag-input .tagItems");
-     tagLines.style.display = "flex";
-     tagLines.style.marginTop = "20px";
-     tagLines.style.gap = "10px"
+
+     const tags = document.querySelector(".tag-input .tagItems")
+
+     tags.style.display = "flex";
+     tags.style.marginTop = "20px";
+     tags.style.gap = "10px"
 }
 
 
