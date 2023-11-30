@@ -3,6 +3,7 @@
   padding: 0;
   box-sizing: border-box;
 }
+
 .container {
   display: flex;
   align-items: center;
@@ -59,6 +60,7 @@
   opacity: 0.6;
   text-transform: uppercase;
 }
+
 .list-item {
   background: white;
   opacity: 1;
@@ -106,10 +108,11 @@
   cursor: pointer;
 }
 
-.completed .todoName{
+.list-item .completed.todoName{
   text-decoration: line-through;
   color: lightslategray;
 }
+
 .selectItems { 
   margin-bottom: auto;
   accent-color: #39a20a;
@@ -163,6 +166,7 @@
  padding:3px;
  font-size: 17px;
 }
+
 .taskDeadLine .deadlineDate{
   background-color: #ed1212;
   color: white;
@@ -300,6 +304,7 @@
 .tag-input .tagItems{
    display: none;
 }
+
 .date-input-container input[type="date"] {
   font-size: 1rem;
   font-weight: 510;

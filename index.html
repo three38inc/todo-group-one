@@ -35,11 +35,19 @@
   <body>
     <div class="container">
       <div class="container-main">
+        <!-- Todo List container  -->
         <section>
+
+          <!-- Calender section  -->
+
           <div class="container-list">
             <div class="day-header">Today
               <i class="ri-calendar-todo-fill"></i>
             </div>
+
+          <!-- Calender end -->
+
+          <!-- Task lists section -->
             <div class="date-header" id="dateValue"></div>
             <div class="time-header" id="timeValue"></div>
             <div class="todo-list-items" id="taskLists">
@@ -49,6 +57,8 @@
               <i class="ri-add-fill"></i>
             </button>
           </div>
+          <!-- Task list end  -->
+          
        </section>
 
         <!-- Add New List Page -->
@@ -79,8 +89,8 @@
             <!-- Add Tag  Field  -->
             <div class="tag-input">
               <h4>Tags</h4>
-              <div class="add-icons" id="addTagIcon">
-                <i class="ri-add-fill"></i><span>Add tags</span>
+              <div class="add-icons">
+                <i class="ri-add-fill" onclick="selectTagLine()"></i><span>Add tags</span>
                 <div class="tagItems">
                   <input type="radio" name="lowTag" id="lowTag">Low
                   <input type="radio" name="highTag" id="highTag">High
