@@ -42,7 +42,7 @@ function displayTaskList(value,index){
     const completedClass = value.status === 'completed' ? 'completed' :'';
 
     return `
-    <div class="list-item ${value.status} ${value.id}">
+    <div class="list-item ${value.status}" data-task-id="${value.id}">
         <input type="checkbox" name="selectItem" id="selectItem${index}" class="selectItems" ${value.status === 'completed' ? 'checked' : ''} >
         <div class="taskDeadLine">
                 <div class="${deadlineClass}">${formatDate.split(" ")[1]}</div>
@@ -190,7 +190,9 @@ function renderTask(){
 
     const checkboxes = document.querySelectorAll('.selectItems');
     checkboxes.forEach(checkbox => checkbox.addEventListener('change', function() {
-        const taskId = checkbox.parentElement.classList[2]; 
+        const parentElement = checkbox.closest('.list-item');
+        const taskId = parentElement.dataset.taskId;
+      
         let task = taskList.find(t => t.id.toString() === taskId);
     
         if (task) {
@@ -206,7 +208,7 @@ function renderTask(){
     const deleteIcons = document.querySelectorAll('.ri-delete-bin-line');
     deleteIcons.forEach(icon => {
         icon.addEventListener('click', function() {
-            const taskId = icon.parentElement.id.split('_')[1];
+            const taskId = icon.parentElement.id;
 
             if (taskId) {
                 deleteTask(taskId);
