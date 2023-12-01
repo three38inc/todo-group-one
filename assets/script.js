@@ -135,21 +135,21 @@ let taskList =
      
    {
        "id":2,
-       "todoName": "Do Dishes",
-       "type": "Home",
-       "tag": "Low",
-       "deadline":"2023-11-28",
+       "todoName": "Stand up call at 1.30PM",
+       "type": "Work",
+       "tag": "High",
+       "deadline":"2023-12-01",
        "status":"pending"
    }
 ]
 
 taskList.push({
-id:3,
-todoName: "Meeting at 1PM",
-type: "Work",
-tag: "High",
-deadline:'2023-11-08',
-status:"completed", 
+    id:3,
+    todoName: "Training Session at 1PM",
+    type: "Work",
+    tag: "High",
+    deadline:'2023-12-01',
+    status:"pending", 
 });
 
 
@@ -200,7 +200,8 @@ function renderTask(){
             console.log('Task not found for', taskId);
         }
 
-    }));
+    })
+    );
 
     const deleteIcons = document.querySelectorAll('.ri-delete-bin-line');
     deleteIcons.forEach(icon => {
@@ -232,7 +233,7 @@ function deleteTask(id) {
 }
 
 
-// close Add list container
+// close Add list container when icon is clicked
 
 function closeAddListContainer() {
   document.querySelector(".add-list-container").style.display = "none";

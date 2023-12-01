@@ -17,6 +17,8 @@
  - Todo List Screen(1st screen)
 
  #### Bhavyashree D C
- - Add Section layout
+ - Add New List Section layout
  - CSS Design
  - Create/Add Todo List Screen(2nd screen)
+ - Javascript functionality part to add New List
+ 
