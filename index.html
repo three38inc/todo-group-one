@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo List Page</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.css"
+      integrity="sha512-HXXR0l2yMwHDrDyxJbrMD9eLvPe3z3qL3PPeozNTsiHJEENxx8DH2CxmV05iwG0dwoz5n4gQZQyYLUNt1Wdgfg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+   
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@1,300&family=Work+Sans:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link 
+       rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.css" 
+       integrity="sha512-HXXR0l2yMwHDrDyxJbrMD9eLvPe3z3qL3PPeozNTsiHJEENxx8DH2CxmV05iwG0dwoz5n4gQZQyYLUNt1Wdgfg==" 
+       crossorigin="anonymous" 
+       referrerpolicy="no-referrer" 
+    />
+    <link rel="stylesheet" href="assets/style.css" />
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="container-main">
+        <!-- Todo List container  -->
+        <section>
+
+          <!-- Calender section  -->
+
+          <div class="container-list">
+            <div class="day-header"> Today
+              <i class="ri-calendar-todo-fill"></i>
+            </div>
+
+          <!-- Calender end -->
+
+          <!-- Task lists section -->
+            <div class="date-header" id="dateValue"></div>
+            <div class="time-header" id="timeValue"></div>
+            <div class="todo-list-items" id="taskLists">
+            </div>
+            
+            <button type="button" class="add-item" onclick = "addNewListBtn()">
+              <i class="ri-add-fill"></i>
+            </button>
+          </div>
+          <!-- Task list end  -->
+          
+       </section>
+
+        <!-- Add New List Page -->
+
+        <section>
+          <div class="add-list-container">
+            <div class="close-icon" id="closeIcon">
+              <i class="ri-close-line"></i>
+            </div>
+
+            <!-- todo input field -->
+            <div class="text-input">
+              <label for="todo">To-do</label>
+              <input type="text" id="inputText" placeholder=" " required />
+            </div>
+
+            <!-- Projects DropDown List -->
+            <div class="projects">
+              <h4>Projects</h4>
+              <div class="project-dropdown-list">
+                <select id="projectList">
+                  <option value="home">Home</option>
+                  <option value="work">Work</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Add Tag  Field  -->
+            <div class="tag-input">
+              <h4>Tags</h4>
+              <div class="add-icons">
+                <i class="ri-add-fill" onclick="selectTagLine()"></i><span>Add tags</span>
+                <div class="tagItems">
+                  <input type="radio" name="lowTag" id="lowTag">Low
+                  <input type="radio" name="highTag" id="highTag">High
+                </div>
+         </div>
+            </div>
+
+            <!-- Time input Field -->
+            <div class="date-input-container">
+              <h4>Deadline</h4>
+              <div class="date-input">
+                <input type="date" name="deadline" id="deadline" />
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="submitBtn">
+              <button class="new-task-btn" id="addBtn">Done</button>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <script src="assets/script.js"></script>
+  </body>
+</html>
