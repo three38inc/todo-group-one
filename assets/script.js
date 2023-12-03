@@ -15,6 +15,7 @@ const timeFormatOptions = {
   hour12: true,
 };
 
+
 const dateFormat = new Intl.DateTimeFormat("en-GB", dateFormatOptions);
 const timeFormat = new Intl.DateTimeFormat("en-GB", timeFormatOptions);
 
@@ -30,7 +31,7 @@ setInterval(() => {
 // Display all TaskLists 
 
 function displayTaskList(value, index) {
-
+  console.log(value)
   const formatDate = new Intl.DateTimeFormat("en-GB", {
     month: "short",
     day: "2-digit",
@@ -39,24 +40,32 @@ function displayTaskList(value, index) {
   let todayDate = new Date().getDate();
   let deadlineDate = new Date(value.deadline).getDate();
 
-  const deadlineClass = deadlineDate === todayDate ? 'deadlineDate' : 'month';
-
+  let deadlineClass = ''
+  if (value.status === 'completed') {
+    deadlineClass = 'completedDate'
+  } else {
+    deadlineClass = deadlineDate <= todayDate ? 'deadlineDate' : 'month';
+  }
+  console.log('here', deadlineClass)
   const completedClass = value.status === 'completed' ? 'completed' : '';
+  const tagClass = { 'High': 'high', 'Low': 'low', 'Medium': 'medium' };
 
   return `
     <div class="list-item ${value.status}" data-task-id="${value.id}">
         <input type="checkbox" name="selectItem" id="selectItem${index}" class="selectItems" ${value.status === 'completed' ? 'checked' : ''} >
+        <div class="taskContent">
         <div class="taskDeadLine">
-                <div class="${deadlineClass}">${formatDate.split(" ")[1]}</div>
-                <div class="date">${formatDate.split(" ")[0]}</div>
+        <div class="monthBox ${deadlineClass}">${formatDate.split(" ")[1]}</div>
+        <div class="date">${formatDate.split(" ")[0]}</div>
         </div>
-        <label for="selectItems" class="listDetails"> 
+        <label for="selectItems${index}" class="listDetails"> 
             <h4 class="todoName ${completedClass}">${value.todoName}</h4>
             <p class="todoType">${value.type}</p>
             <div class="tag-div">
-                <span class="todoTag high">${value.tag}</span>
+                <span class="todoTag ${tagClass[value.tag]}">${value.tag}</span>
             </div>
         </label>
+        </div>
         <i class="ri-delete-bin-line"></i>
     </div>
     `
@@ -86,18 +95,7 @@ function addNewList() {
     let selectedValue = selectedOption.value;
     let selectedDate = deadline.value;
 
-    const lowTags = document.getElementById('lowTag');
-    const highTags = document.getElementById('highTag');
-
-    let selectedTag;
-
-    if (lowTags.checked) {
-      selectedTag = lowTags.value;
-    } else if (highTags.checked) {
-      selectedTag = highTags.value;
-    } else {
-      selectedTag = "Low";
-    }
+    let selectedTag = document.querySelector('input[name="tagName"]:checked').value;
 
     const listITems = {
       id: taskList.length + 1,
@@ -211,8 +209,8 @@ function renderTask() {
   addTask.addEventListener('click', addNewList);
 
 
-  const addTag = document.querySelectorAll('.add-icons');
-  addTag.forEach(tagLine => tagLine.addEventListener('click', selectTagLine));
+  // const addTag = document.querySelectorAll('.add-icons');
+  // addTag.forEach(tagLine => tagLine.addEventListener('click', selectTagLine));
 
 
   const deleteIcons = document.querySelectorAll('.ri-delete-bin-line');
@@ -251,11 +249,17 @@ function closeAddListContainer() {
 
 // Display radio buttons to select Tag Name 
 
-function selectTagLine() {
-
-  const tags = document.querySelector(".tag-input .tagItems")
-
+document.querySelector(".add-icons").addEventListener("click", (e) => {
+  console.log('dfheof', this)
+  const tags = e.currentTarget.querySelector(".tagItems")
   tags.style.display = "flex";
-  tags.style.marginTop = "20px";
-  tags.style.gap = "10px";
-}
+});
+
+// function selectTagLine() {
+
+//   const tags = document.querySelector(".tag-input .tagItems")
+
+//   tags.style.display = "flex";
+//   // tags.style.marginTop = "20px";
+//   // tags.style.gap = "10px";
+// }
