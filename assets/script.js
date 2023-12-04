@@ -227,7 +227,6 @@ function renderTask() {
     })
   });
 
-
   const closeIcon = document.getElementById('closeIcon');
   closeIcon.addEventListener('click', closeAddListContainer);
 
@@ -235,11 +234,6 @@ function renderTask() {
 
 renderTask();
 
-// Delete TodoList  
-
-function deleteTask(id) {
-
-}
 
 // close Add list container when icon is clicked
 
