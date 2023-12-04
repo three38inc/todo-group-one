@@ -1,4 +1,6 @@
+
 import savedTasks from './data/tasks.json' assert {type: 'json'}
+
 
 // Display Today Date & Time
 
@@ -122,35 +124,9 @@ function addNewList() {
 
 // creating array to dynamically insert the values
 
-let taskList = savedTasks
-// [
-//   {
-//        "id":1,
-//        "todoName": "Do yoga",
-//        "type": "Home",
-//        "tag": "High",
-//        "deadline":"2023-11-30",
-//        "status":"completed"
-//    },
 
-//    {
-//        "id":2,
-//        "todoName": "Stand up call at 1.30PM",
-//        "type": "Work",
-//        "tag": "High",
-//        "deadline":"2023-12-01",
-//        "status":"pending"
-//    }
-// ]
+let taskList = savedTasks;
 
-// taskList.push({
-//     id:3,
-//     todoName: "Training Session at 1PM",
-//     type: "Work",
-//     tag: "High",
-//     deadline:'2023-12-01',
-//     status:"pending", 
-// });
 
 
 // Filtering & sorting task based on status & date 
@@ -179,10 +155,25 @@ function renderTask() {
   });
 
   completeTask.forEach((list, index) => {
-    newString += displayTaskList(list, index);
 
+  let newString = "";
+
+  taskList.sort(function (a, b) {
+    const aDate = new Date(a.deadline);
+    const bDate = new Date(b.deadline);
+    return aDate - bDate;
   });
 
+  const pendingTask = taskList.filter(function (list) {
+    return list.status != 'completed';
+  });
+
+  const completeTask = taskList.filter(list => list.status === 'completed');
+
+  pendingTask.forEach((list, index) => {
+    newString += displayTaskList(list, index);
+  });
+    
   tasks.innerHTML = newString;
 
 
@@ -201,16 +192,13 @@ function renderTask() {
     } else {
       console.log('Task not found for', taskId);
     }
-
+      
   })
   );
 
+
   const addTask = document.getElementById('addNewListBtn')
   addTask.addEventListener('click', addNewList);
-
-
-  // const addTag = document.querySelectorAll('.add-icons');
-  // addTag.forEach(tagLine => tagLine.addEventListener('click', selectTagLine));
 
 
   const deleteIcons = document.querySelectorAll('.ri-delete-bin-line');
@@ -218,7 +206,7 @@ function renderTask() {
     icon.addEventListener('click', function () {
       const parentElement = icon.closest('.list-item');
       const taskId = parentElement.dataset.taskId;
-
+      
       const index = taskList.findIndex((task) => task.id.toString() === taskId);
       if (index !== -1) {
         taskList.splice(index, 1);
@@ -249,11 +237,4 @@ document.querySelector(".add-icons").addEventListener("click", (e) => {
   tags.style.display = "flex";
 });
 
-// function selectTagLine() {
 
-//   const tags = document.querySelector(".tag-input .tagItems")
-
-//   tags.style.display = "flex";
-//   // tags.style.marginTop = "20px";
-//   // tags.style.gap = "10px";
-// }
