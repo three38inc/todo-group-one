@@ -122,11 +122,8 @@ function addNewList() {
 }
 
 
-// creating array to dynamically insert the values
-
 
 let taskList = savedTasks;
-
 
 
 // Filtering & sorting task based on status & date 
@@ -155,25 +152,10 @@ function renderTask() {
   });
 
   completeTask.forEach((list, index) => {
-
-  let newString = "";
-
-  taskList.sort(function (a, b) {
-    const aDate = new Date(a.deadline);
-    const bDate = new Date(b.deadline);
-    return aDate - bDate;
-  });
-
-  const pendingTask = taskList.filter(function (list) {
-    return list.status != 'completed';
-  });
-
-  const completeTask = taskList.filter(list => list.status === 'completed');
-
-  pendingTask.forEach((list, index) => {
     newString += displayTaskList(list, index);
+
   });
-    
+
   tasks.innerHTML = newString;
 
 
@@ -192,27 +174,26 @@ function renderTask() {
     } else {
       console.log('Task not found for', taskId);
     }
-      
+
   })
   );
-
 
   const addTask = document.getElementById('addNewListBtn')
   addTask.addEventListener('click', addNewList);
 
-
+  
   const deleteIcons = document.querySelectorAll('.ri-delete-bin-line');
   deleteIcons.forEach(icon => {
-    icon.addEventListener('click', function () {
+    icon.addEventListener('click', function() {
       const parentElement = icon.closest('.list-item');
       const taskId = parentElement.dataset.taskId;
-      
+  
       const index = taskList.findIndex((task) => task.id.toString() === taskId);
       if (index !== -1) {
         taskList.splice(index, 1);
         renderTask();
       }
-    })
+  })
   });
 
   const closeIcon = document.getElementById('closeIcon');
@@ -232,7 +213,6 @@ function closeAddListContainer() {
 // Display radio buttons to select Tag Name 
 
 document.querySelector(".add-icons").addEventListener("click", (e) => {
-  console.log('dfheof', this)
   const tags = e.currentTarget.querySelector(".tagItems")
   tags.style.display = "flex";
 });
