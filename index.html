@@ -80,7 +80,7 @@
               <h4>Projects</h4>
               <div class="project-dropdown-list">
                 <select id="projectList">
-                  <option value="home">Home</option>
+                  <option value="home" selected>Home</option>
                   <option value="work">Work</option>
                 </select>
               </div>
@@ -92,8 +92,9 @@
               <div class="add-icons">
                 <i class="ri-add-fill"></i><span>Add tags</span>
                 <div class="tagItems">
-                  <input type="radio" name="lowTag" id="lowTag">Low
-                  <input type="radio" name="highTag" id="highTag">High
+                  <input type="radio" id="lowTag" name="tagName" value="Low"><label for="lowTag">Low</label>
+                  <input type="radio" id="medTag" name="tagName" value="Medium"><label for="medTag">Medium</label>
+                  <input type="radio" id="highTag" name="tagName" value="High"><label for="highTag">High</label>
                 </div>
          </div>
             </div>

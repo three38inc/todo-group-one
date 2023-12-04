@@ -1,5 +1,14 @@
-import savedTasks from './data/tasks.json' assert {type : 'json'}
 
+let taskList = localStorage.getItem('taskList');
+
+if(!taskList){
+  
+   taskList = [];
+
+   localStorage.setItem('tasks',JSON.stringify(taskList));
+}else{
+   taskList = JSON.parse(taskList);
+}
 // Display Today Date & Time
 
 const dateFormatOptions = {
@@ -29,34 +38,42 @@ document.getElementById("timeValue").innerHTML = timeFormat.format(today);
 
 // Display all TaskLists 
 
-function displayTaskList(value,index){
+function displayTaskList(value, index) {
+  console.log(value)
+  const formatDate = new Intl.DateTimeFormat("en-GB", {
+    month: "short",
+    day: "2-digit",
+  }).format(new Date(value.deadline));
 
-    const formatDate = new Intl.DateTimeFormat("en-GB",{
-      month: "short",
-      day: "2-digit",
-    }).format(new Date(value.deadline));
+  let todayDate = new Date().getDate();
+  let deadlineDate = new Date(value.deadline).getDate();
 
-    let todayDate = new Date().getDate();
-    let deadlineDate = new Date(value.deadline).getDate();
+  let deadlineClass = ''
+  if (value.status === 'completed') {
+    deadlineClass = 'completedDate'
+  } else {
+    deadlineClass = deadlineDate <= todayDate ? 'deadlineDate' : 'month';
+  }
+  console.log('here', deadlineClass)
+  const completedClass = value.status === 'completed' ? 'completed' : '';
+  const tagClass = { 'High': 'high', 'Low': 'low', 'Medium': 'medium' };
 
-    const deadlineClass = deadlineDate === todayDate ? 'deadlineDate': 'month';
-
-    const completedClass = value.status === 'completed' ? 'completed' :'';
-
-    return `
+  return `
     <div class="list-item ${value.status}" data-task-id="${value.id}">
         <input type="checkbox" name="selectItem" id="selectItem${index}" class="selectItems" ${value.status === 'completed' ? 'checked' : ''} >
+        <div class="taskContent">
         <div class="taskDeadLine">
-                <div class="${deadlineClass}">${formatDate.split(" ")[1]}</div>
-                <div class="date">${formatDate.split(" ")[0]}</div>
+        <div class="monthBox ${deadlineClass}">${formatDate.split(" ")[1]}</div>
+        <div class="date">${formatDate.split(" ")[0]}</div>
         </div>
-        <label for="selectItems" class="listDetails"> 
+        <label for="selectItems${index}" class="listDetails"> 
             <h4 class="todoName ${completedClass}">${value.todoName}</h4>
             <p class="todoType">${value.type}</p>
             <div class="tag-div">
-                <span class="todoTag high">${value.tag}</span>
+                <span class="todoTag ${tagClass[value.tag]}">${value.tag}</span>
             </div>
         </label>
+        </div>
         <i class="ri-delete-bin-line"></i>
     </div>
     `
@@ -99,16 +116,16 @@ function addNewList() {
       selectedTag = "Low";
     }
       
-    const listITems = {
+    taskList.push({
         id: taskList.length+1,
         todoName: inputValue,
         type: selectedValue,
         tag: selectedTag,
         deadline: selectedDate,
         status: "pending",
-    };
+    });
 
-    taskList.unshift(listITems);
+    saveTaskTolocalStorage();
 
     renderTask();
 
@@ -122,38 +139,7 @@ function addNewList() {
 }
 
 
-// creating array to dynamically insert the values
-
-let taskList = savedTasks
-// [
-//   {
-//        "id":1,
-//        "todoName": "Do yoga",
-//        "type": "Home",
-//        "tag": "High",
-//        "deadline":"2023-11-30",
-//        "status":"completed"
-//    },
-     
-//    {
-//        "id":2,
-//        "todoName": "Stand up call at 1.30PM",
-//        "type": "Work",
-//        "tag": "High",
-//        "deadline":"2023-12-01",
-//        "status":"pending"
-//    }
-// ]
-
-// taskList.push({
-//     id:3,
-//     todoName: "Training Session at 1PM",
-//     type: "Work",
-//     tag: "High",
-//     deadline:'2023-12-01',
-//     status:"pending", 
-// });
-
+// let taskList = savedTasks
 
 // Filtering & sorting task based on status & date 
 
@@ -199,10 +185,13 @@ function renderTask(){
     
         if (task) {
             task.status = checkbox.checked ? 'completed' : 'pending';
-            renderTask(); 
+           
         } else {
             console.log('Task not found for', taskId);
         }
+
+        saveTaskTolocalStorage();
+        renderTask(); 
 
     })
     );
@@ -221,11 +210,18 @@ function renderTask(){
         const parentElement = icon.closest('.list-item');
         const taskId = parentElement.dataset.taskId;
 
-        const index = taskList.findIndex((task) => task.id.toString() === taskId);
+       const index = taskList.findIndex((task) => task.id.toString() === taskId);
         if (index !== -1) {
             taskList.splice(index, 1);
-            renderTask();
+          
+        }else {
+          console.log("Task not found for ", taskId);
         }
+        
+        saveTaskTolocalStorage();
+        
+        renderTask();
+
     })
   });
 
@@ -235,8 +231,12 @@ function renderTask(){
        
 }
 
-renderTask();
+function saveTaskTolocalStorage(){
+  localStorage.setItem('taskList',JSON.stringify(taskList));
+}
 
+
+renderTask();
 
 
 // close Add list container when icon is clicked
