@@ -65,7 +65,7 @@ function displayTaskList(value,index){
 // Add new Todo List
 
 function addNewList() {
-
+       
     let addListContainer = document.querySelector(".add-list-container");
     addListContainer.style.display = "block";
 
@@ -237,11 +237,7 @@ function renderTask(){
 
 renderTask();
 
- // Delete TodoList  
 
-function deleteTask(id) {
- 
-}
 
 // close Add list container when icon is clicked
 
