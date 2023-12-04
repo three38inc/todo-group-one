@@ -24,16 +24,15 @@ const timeFormatOptions = {
   hour12: true,
 };
 
-
 const dateFormat = new Intl.DateTimeFormat("en-GB", dateFormatOptions);
 const timeFormat = new Intl.DateTimeFormat("en-GB", timeFormatOptions);
 
-setInterval(() => {
+setInterval(() =>{
 
-  let today = new Date();
+let today = new Date();
 
-  document.getElementById("dateValue").innerHTML = dateFormat.format(today);
-  document.getElementById("timeValue").innerHTML = timeFormat.format(today);
+document.getElementById("dateValue").innerHTML = dateFormat.format(today);
+document.getElementById("timeValue").innerHTML = timeFormat.format(today);
 
 }, 1000)
 
@@ -83,28 +82,31 @@ function displayTaskList(value, index) {
 // Add new Todo List
 
 function addNewList() {
+       
+    let addListContainer = document.querySelector(".add-list-container");
+    addListContainer.style.display = "block";
 
-  let addListContainer = document.querySelector(".add-list-container");
-  addListContainer.style.display = "block";
+    let addTask = document.getElementById("addBtn");
 
-  let addTask = document.getElementById("addBtn");
-
-  addTask.addEventListener("click", function () {
-    const taskInput = document.getElementById("inputText");
-    const taskType = document.getElementById("projectList");
-    const deadline = document.getElementById("deadline");
-
+    addTask.addEventListener("click", function () {
+      const taskInput = document.getElementById("inputText");
+      const taskType = document.getElementById("projectList");
+      const deadline =  document.getElementById("deadline");
+    
     if (!taskInput.value) {
       alert("Please enter a valid task");
       return;
-    }
+    }   
 
     let inputValue = taskInput.value;
     let selectedOption = taskType.options[taskType.selectedIndex];
     let selectedValue = selectedOption.value;
     let selectedDate = deadline.value;
 
-    let selectedTag = document.querySelector('input[name="tagName"]:checked').value;
+    const lowTags = document.getElementById('lowTag');
+    const highTags = document.getElementById('highTag');
+
+    let selectedTag ; 
 
     if(lowTags.checked){
       selectedTag = lowTags.value;
@@ -136,41 +138,45 @@ function addNewList() {
   });
 }
 
-// taskList = savedTasks
+
+// let taskList = savedTasks
 
 // Filtering & sorting task based on status & date 
 
 const tasks = document.getElementById("taskLists");
 
-function renderTask() {
+function renderTask(){
 
-  let newString = "";
+    let newString = "";
 
-  taskList.sort(function (a, b) {
-    const aDate = new Date(a.deadline);
-    const bDate = new Date(b.deadline);
-    return aDate - bDate;
-  });
+    taskList.sort(function (a,b){
+        const aDate = new Date(a.deadline);
+        const bDate = new Date(b.deadline);
+        return aDate - bDate ;
+    });
 
-  const pendingTask = taskList.filter(function (list) {
-    return list.status != 'completed';
-  });
+    const pendingTask = taskList.filter(function(list){
+        return list.status != 'completed' ;
+    });
 
-  const completeTask = taskList.filter(list => list.status === 'completed');
+    const completeTask = taskList.filter(list => list.status === 'completed');
 
-  pendingTask.forEach((list, index) => {
-    newString += displayTaskList(list, index);
+    pendingTask.forEach((list,index) => {
+      newString += displayTaskList(list,index);
 
-  });
+    });
 
-  completeTask.forEach((list, index) => {
-    newString += displayTaskList(list, index);
+    completeTask.forEach((list,index) => {
+      newString += displayTaskList(list,index);
 
-  });
+    });
 
-  tasks.innerHTML = newString;
+    tasks.innerHTML = newString;
 
-const checkboxes = document.querySelectorAll('.selectItems');
+  
+    // event listener for checkBox , delete icon , close icons
+
+    const checkboxes = document.querySelectorAll('.selectItems');
     checkboxes.forEach(checkbox => checkbox.addEventListener('change', function() {
         const parentElement = checkbox.closest('.list-item');
         const taskId = parentElement.dataset.taskId;
@@ -249,4 +255,3 @@ function selectTagLine(){
   tags.style.marginTop = "20px";
   tags.style.gap = "10px";
 }
-
