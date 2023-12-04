@@ -217,6 +217,7 @@ function renderTask(){
   
     const deleteIcons = document.querySelectorAll('.ri-delete-bin-line');
     deleteIcons.forEach(icon => {
+
       icon.addEventListener('click', function() {
         const parentElement = icon.closest('.list-item');
         const taskId = parentElement.dataset.taskId;
@@ -228,7 +229,6 @@ function renderTask(){
         }
     })
   });
-
 
     const closeIcon = document.getElementById('closeIcon');
     closeIcon.addEventListener('click',closeAddListContainer);
