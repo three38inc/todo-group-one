@@ -53,7 +53,7 @@
             <div class="todo-list-items" id="taskLists">
             </div>
             
-            <button type="button" class="add-item" onclick = "addNewListBtn()">
+            <button type="button" class="add-item" id = "addNewListBtn">
               <i class="ri-add-fill"></i>
             </button>
           </div>
@@ -90,7 +90,7 @@
             <div class="tag-input">
               <h4>Tags</h4>
               <div class="add-icons">
-                <i class="ri-add-fill" onclick="selectTagLine()"></i><span>Add tags</span>
+                <i class="ri-add-fill"></i><span>Add tags</span>
                 <div class="tagItems">
                   <input type="radio" name="lowTag" id="lowTag">Low
                   <input type="radio" name="highTag" id="highTag">High
@@ -115,6 +115,6 @@
       </div>
     </div>
 
-    <script src="assets/script.js"></script>
+    <script type = "module" src="assets/script.js"></script>
   </body>
 </html>

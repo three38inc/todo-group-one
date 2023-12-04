@@ -1,3 +1,5 @@
+import savedTasks from './data/tasks.json' assert {type : 'json'}
+
 // Display Today Date & Time
 
 const dateFormatOptions = {
@@ -34,8 +36,8 @@ function displayTaskList(value,index){
       day: "2-digit",
     }).format(new Date(value.deadline));
 
-    todayDate = new Date().getDate();
-    deadlineDate = new Date(value.deadline).getDate();
+    let todayDate = new Date().getDate();
+    let deadlineDate = new Date(value.deadline).getDate();
 
     const deadlineClass = deadlineDate === todayDate ? 'deadlineDate': 'month';
 
@@ -55,15 +57,15 @@ function displayTaskList(value,index){
                 <span class="todoTag high">${value.tag}</span>
             </div>
         </label>
-        <i class="ri-delete-bin-line" onclick="deleteTask(${value.id})"></i>
+        <i class="ri-delete-bin-line"></i>
     </div>
     `
 }
 
 // Add new Todo List
 
-function addNewListBtn() {
-
+function addNewList() {
+       
     let addListContainer = document.querySelector(".add-list-container");
     addListContainer.style.display = "block";
 
@@ -122,35 +124,35 @@ function addNewListBtn() {
 
 // creating array to dynamically insert the values
 
-let taskList = 
-[
-  {
-       "id":1,
-       "todoName": "Do yoga",
-       "type": "Home",
-       "tag": "High",
-       "deadline":"2023-11-30",
-       "status":"completed"
-   },
+let taskList = savedTasks
+// [
+//   {
+//        "id":1,
+//        "todoName": "Do yoga",
+//        "type": "Home",
+//        "tag": "High",
+//        "deadline":"2023-11-30",
+//        "status":"completed"
+//    },
      
-   {
-       "id":2,
-       "todoName": "Stand up call at 1.30PM",
-       "type": "Work",
-       "tag": "High",
-       "deadline":"2023-12-01",
-       "status":"pending"
-   }
-]
+//    {
+//        "id":2,
+//        "todoName": "Stand up call at 1.30PM",
+//        "type": "Work",
+//        "tag": "High",
+//        "deadline":"2023-12-01",
+//        "status":"pending"
+//    }
+// ]
 
-taskList.push({
-    id:3,
-    todoName: "Training Session at 1PM",
-    type: "Work",
-    tag: "High",
-    deadline:'2023-12-01',
-    status:"pending", 
-});
+// taskList.push({
+//     id:3,
+//     todoName: "Training Session at 1PM",
+//     type: "Work",
+//     tag: "High",
+//     deadline:'2023-12-01',
+//     status:"pending", 
+// });
 
 
 // Filtering & sorting task based on status & date 
@@ -205,16 +207,28 @@ function renderTask(){
     })
     );
 
+    const addTask = document.getElementById('addNewListBtn')
+    addTask.addEventListener('click', addNewList);
+
+
+    const addTag = document.querySelectorAll('.add-icons');
+    addTag.forEach(tagLine => tagLine.addEventListener('click',selectTagLine));
+
+  
     const deleteIcons = document.querySelectorAll('.ri-delete-bin-line');
     deleteIcons.forEach(icon => {
-        icon.addEventListener('click', function() {
-            const taskId = icon.parentElement.id;
 
-            if (taskId) {
-                deleteTask(taskId);
-            }
-        });
-    });
+      icon.addEventListener('click', function() {
+        const parentElement = icon.closest('.list-item');
+        const taskId = parentElement.dataset.taskId;
+
+        const index = taskList.findIndex((task) => task.id.toString() === taskId);
+        if (index !== -1) {
+            taskList.splice(index, 1);
+            renderTask();
+        }
+    })
+  });
 
     const closeIcon = document.getElementById('closeIcon');
     closeIcon.addEventListener('click',closeAddListContainer);
@@ -223,16 +237,6 @@ function renderTask(){
 
 renderTask();
 
-
- // Delete TodoList  
-
-function deleteTask(id) {
-  const index = taskList.findIndex((task) => task.id === id);
-  if (index !== -1) {
-     taskList.splice(index, 1);
-     renderTask();
-  }
-}
 
 
 // close Add list container when icon is clicked
@@ -244,12 +248,10 @@ function closeAddListContainer() {
 // Display radio buttons to select Tag Name 
 
 function selectTagLine(){
-   tagLines = document.querySelector(".tag-input .tagItems");
-   tagLines.style.display = "flex";
-   tagLines.style.marginTop = "20px";
-   tagLines.style.gap = "10px"
+
+  const tags = document.querySelector(".tag-input .tagItems")
+
+  tags.style.display = "flex";
+  tags.style.marginTop = "20px";
+  tags.style.gap = "10px";
 }
-
-
-
-
