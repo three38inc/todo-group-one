@@ -1,4 +1,4 @@
-import savedTasks from "./data/tasks.json" assert { type: "json"};
+
 
 // Display Today Date & Time
 
@@ -182,12 +182,12 @@ function renderTask() {
 
 
 
-
-  const deleteIcons = document.querySelectorAll('.ri-delete-bin-line');
-  deleteIcons.forEach(icon => {
-    icon.addEventListener('click', function () {
-      const parentElement = icon.closest('.list-item');
-      const taskId = parentElement.dataset.taskId;
+  
+    const deleteIcons = document.querySelectorAll('.ri-delete-bin-line');
+    deleteIcons.forEach(icon => {
+      icon.addEventListener('click', function() {
+        const parentElement = icon.closest('.list-item');
+        const taskId = parentElement.dataset.taskId;
 
       const index = taskList.findIndex((task) => task.id.toString() === taskId);
       if (index !== -1) {
