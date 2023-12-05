@@ -5,10 +5,12 @@ if(!taskList){
   
    taskList = [];
 
-   localStorage.setItem('tasks',JSON.stringify(taskList));
+   localStorage.setItem('taskList',JSON.stringify(taskList));
 }else{
    taskList = JSON.parse(taskList);
 }
+
+
 // Display Today Date & Time
 
 const dateFormatOptions = {
@@ -39,7 +41,6 @@ document.getElementById("timeValue").innerHTML = timeFormat.format(today);
 // Display all TaskLists 
 
 function displayTaskList(value, index) {
-  console.log(value)
   const formatDate = new Intl.DateTimeFormat("en-GB", {
     month: "short",
     day: "2-digit",
@@ -54,10 +55,10 @@ function displayTaskList(value, index) {
   } else {
     deadlineClass = deadlineDate <= todayDate ? 'deadlineDate' : 'month';
   }
-  console.log('here', deadlineClass)
+  
   const completedClass = value.status === 'completed' ? 'completed' : '';
   const tagClass = { 'High': 'high', 'Low': 'low', 'Medium': 'medium' };
-
+  
   return `
     <div class="list-item ${value.status}" data-task-id="${value.id}">
         <input type="checkbox" name="selectItem" id="selectItem${index}" class="selectItems" ${value.status === 'completed' ? 'checked' : ''} >
@@ -105,6 +106,7 @@ function addNewList() {
 
     const lowTags = document.getElementById('lowTag');
     const highTags = document.getElementById('highTag');
+    const medTags = document.getElementById('medTag');
 
     let selectedTag ; 
 
@@ -112,7 +114,10 @@ function addNewList() {
       selectedTag = lowTags.value;
     }else if(highTags.checked){
       selectedTag = highTags.value;
-    }else{
+    }else if(medTags.checked){
+      selectedTag = medTags.value;
+    }
+    else{
       selectedTag = "Low";
     }
       
@@ -125,14 +130,12 @@ function addNewList() {
         status: "pending",
     });
 
-    saveTaskTolocalStorage();
+    saveTaskToLocalStorage();
 
     renderTask();
 
     taskInput.value = "";
     taskType.value = "Home";
-    highTags.value = false;
-    lowTags.value = false;
     deadline.value = "";
 
   });
@@ -190,7 +193,7 @@ function renderTask(){
             console.log('Task not found for', taskId);
         }
 
-        saveTaskTolocalStorage();
+        saveTaskToLocalStorage();
         renderTask(); 
 
     })
@@ -200,10 +203,6 @@ function renderTask(){
     addTask.addEventListener('click', addNewList);
 
 
-    const addTag = document.querySelectorAll('.add-icons');
-    addTag.forEach(tagLine => tagLine.addEventListener('click',selectTagLine));
-
-  
     const deleteIcons = document.querySelectorAll('.ri-delete-bin-line');
     deleteIcons.forEach(icon => {
       icon.addEventListener('click', function() {
@@ -218,7 +217,7 @@ function renderTask(){
           console.log("Task not found for ", taskId);
         }
         
-        saveTaskTolocalStorage();
+        saveTaskToLocalStorage();
         
         renderTask();
 
@@ -231,7 +230,7 @@ function renderTask(){
        
 }
 
-function saveTaskTolocalStorage(){
+function saveTaskToLocalStorage(){
   localStorage.setItem('taskList',JSON.stringify(taskList));
 }
 
@@ -247,11 +246,3 @@ function closeAddListContainer() {
 
 // Display radio buttons to select Tag Name 
 
-function selectTagLine(){
-
-  const tags = document.querySelector(".tag-input .tagItems")
-
-  tags.style.display = "flex";
-  tags.style.marginTop = "20px";
-  tags.style.gap = "10px";
-}
