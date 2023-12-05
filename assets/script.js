@@ -41,7 +41,6 @@ document.getElementById("timeValue").innerHTML = timeFormat.format(today);
 // Display all TaskLists 
 
 function displayTaskList(value, index) {
-  console.log(value)
   const formatDate = new Intl.DateTimeFormat("en-GB", {
     month: "short",
     day: "2-digit",
@@ -122,8 +121,6 @@ function addNewList() {
       selectedTag = "Low";
     }
       
-    console.log(selectedTag);
-
     taskList.push({
         id: taskList.length+1,
         todoName: inputValue,
