@@ -11,33 +11,6 @@ if(!taskList){
 }
 
 
-// Display Today Date & Time
-
-const dateFormatOptions = {
-  weekday: "long",
-  month: "long",
-  day: "numeric",
-};
-
-const timeFormatOptions = {
-  hour: "numeric",
-  minute: "numeric",
-  second: "numeric",
-  hour12: true,
-};
-
-const dateFormat = new Intl.DateTimeFormat("en-GB", dateFormatOptions);
-const timeFormat = new Intl.DateTimeFormat("en-GB", timeFormatOptions);
-
-setInterval(() =>{
-
-let today = new Date();
-
-document.getElementById("dateValue").innerHTML = dateFormat.format(today);
-document.getElementById("timeValue").innerHTML = timeFormat.format(today);
-
-}, 1000)
-
 // Display all TaskLists 
 
 function displayTaskList(value, index) {
