@@ -1,63 +1,38 @@
 
-let taskList = localStorage.getItem('taskList');
+let taskList = localStorage.getItem('taskList')
 
-if(!taskList){
-  
-   taskList = [];
-
-   localStorage.setItem('taskList',JSON.stringify(taskList));
-}else{
-   taskList = JSON.parse(taskList);
+if (!taskList) {
+  // initialize the value
+  taskList = []
+  // save it in localStorage
+  localStorage.setItem('TaskList', JSON.stringify(taskList))
+} else {
+  taskList = JSON.parse(taskList)
+  taskList= taskList.map(tObj => {
+    return new Task(tObj);
+  })
 }
 
-
-// Display Today Date & Time
-
-const dateFormatOptions = {
-  weekday: "long",
-  month: "long",
-  day: "numeric",
-};
-
-const timeFormatOptions = {
-  hour: "numeric",
-  minute: "numeric",
-  second: "numeric",
-  hour12: true,
-};
-
-const dateFormat = new Intl.DateTimeFormat("en-GB", dateFormatOptions);
-const timeFormat = new Intl.DateTimeFormat("en-GB", timeFormatOptions);
-
-setInterval(() =>{
-
-let today = new Date();
-
-document.getElementById("dateValue").innerHTML = dateFormat.format(today);
-document.getElementById("timeValue").innerHTML = timeFormat.format(today);
-
-}, 1000)
-
-// Display all TaskLists 
+ // Display all TaskLists 
 
 function displayTaskList(value, index) {
-  const formatDate = new Intl.DateTimeFormat("en-GB", {
-    month: "short",
-    day: "2-digit",
-  }).format(new Date(value.deadline));
+    const formatDate = new Intl.DateTimeFormat("en-GB", {
+      month: "short",
+      day: "2-digit",
+    }).format(new Date(value.deadline));
 
-  let todayDate = new Date().getDate();
-  let deadlineDate = new Date(value.deadline).getDate();
+    let todayDate = new Date().getDate();
+    let deadlineDate = new Date(value.deadline).getDate();
 
-  let deadlineClass = ''
-  if (value.status === 'completed') {
-    deadlineClass = 'completedDate'
-  } else {
-    deadlineClass = deadlineDate <= todayDate ? 'deadlineDate' : 'month';
-  }
-  
-  const completedClass = value.status === 'completed' ? 'completed' : '';
-  const tagClass = { 'High': 'high', 'Low': 'low', 'Medium': 'medium' };
+    let deadlineClass = '';
+    if (value.status === 'completed') {
+      deadlineClass = 'completedDate';
+    } else {
+      deadlineClass = deadlineDate <= todayDate ? 'deadlineDate' : 'month';
+    }
+    
+    const completedClass = value.status === 'completed' ? 'completed' : '';
+    const tagClass = { 'High': 'high', 'Low': 'low', 'Medium': 'medium' };
   
   return `
     <div class="list-item ${value.status}" data-task-id="${value.id}">
@@ -80,7 +55,7 @@ function displayTaskList(value, index) {
     `
 }
 
-// Add new Todo List
+// // Add new Todo List
 
 function addNewList() {
        
@@ -121,14 +96,8 @@ function addNewList() {
       selectedTag = "Low";
     }
       
-    taskList.push({
-        id: taskList.length+1,
-        todoName: inputValue,
-        type: selectedValue,
-        tag: selectedTag,
-        deadline: selectedDate,
-        status: "pending",
-    });
+    const newTask = new Task({todoName:inputValue,type:selectedValue,tag:selectedTag,deadline:selectedDate});
+    taskList.push(newTask);
 
     saveTaskToLocalStorage();
 
@@ -141,13 +110,11 @@ function addNewList() {
   });
 }
 
-
 // let taskList = savedTasks
+// Filtering & sorting task based on status & da te
 
-// Filtering & sorting task based on status & date 
-
-const tasks = document.getElementById("taskLists");
-
+ const tasks = document.getElementById('taskLists');
+// 
 function renderTask(){
 
     let newString = "";
@@ -177,50 +144,44 @@ function renderTask(){
     tasks.innerHTML = newString;
 
   
-    // event listener for checkBox , delete icon , close icons
+   // event listener for checkBox , delete icon , close icons
 
     const checkboxes = document.querySelectorAll('.selectItems');
-    checkboxes.forEach(checkbox => checkbox.addEventListener('change', function() {
-        const parentElement = checkbox.closest('.list-item');
-        const taskId = parentElement.dataset.taskId;
-      
-        let task = taskList.find(t => t.id.toString() === taskId);
+    checkboxes.forEach(checkbox => checkbox.addEventListener('change', () => {
+      const parentElement = checkbox.closest('.list-item');
+      const taskId = parentElement.dataset.taskId;
+      const taskInstance = taskList.find((t) => t.id.toString() === taskId);
     
-        if (task) {
-            task.status = checkbox.checked ? 'completed' : 'pending';
-           
-        } else {
-            console.log('Task not found for', taskId);
-        }
-
+      if (taskInstance) {
+        taskInstance.toggleStatus(checkbox.checked);
         saveTaskToLocalStorage();
-        renderTask(); 
+        renderTask();
+      } else {
+        console.log("Task not found for ", taskId);
+      }
 
     })
     );
 
-    const addTask = document.getElementById('addNewListBtn')
+    const addTask = document.getElementById('addNewListBtn');
     addTask.addEventListener('click', addNewList);
 
 
     const deleteIcons = document.querySelectorAll('.ri-delete-bin-line');
     deleteIcons.forEach(icon => {
-      icon.addEventListener('click', function() {
+      icon.addEventListener('click', () => {
         const parentElement = icon.closest('.list-item');
         const taskId = parentElement.dataset.taskId;
-
-       const index = taskList.findIndex((task) => task.id.toString() === taskId);
-        if (index !== -1) {
-            taskList.splice(index, 1);
-          
-        }else {
+        const taskInstance = taskList.find((t) => t.id.toString() === taskId);
+  
+        if (taskInstance) {
+          taskInstance.removeTask(taskList, taskId);
+          saveTaskToLocalStorage();
+          renderTask();
+        } else {
           console.log("Task not found for ", taskId);
         }
-        
-        saveTaskToLocalStorage();
-        
-        renderTask();
-
+  
     })
   });
 
@@ -231,8 +192,8 @@ function renderTask(){
 }
 
 function saveTaskToLocalStorage(){
-  localStorage.setItem('taskList',JSON.stringify(taskList));
-}
+     localStorage.setItem('taskList',JSON.stringify(taskList));
+  }
 
 
 renderTask();
@@ -241,7 +202,7 @@ renderTask();
 // close Add list container when icon is clicked
 
 function closeAddListContainer() {
-  document.querySelector(".add-list-container").style.display = "none";
+     document.querySelector(".add-list-container").style.display = "none";
 }
 
 // Display radio buttons to select Tag Name 
