@@ -14,22 +14,35 @@ const dateFormatOptions = {
   const dateFormat = new Intl.DateTimeFormat("en-GB", dateFormatOptions);
   const timeFormat = new Intl.DateTimeFormat("en-GB", timeFormatOptions);
 
-  class DateTime{
-     constructor(){
+  class DateTime {
+
+     constructor(date,time) {
+        this.date = date;
+        this.time = time;
         this.interval = null;
      }
 
-     startClock(date,time){
+     startClock(){
         
           this.interval = setInterval(() =>{
 
             this.today = new Date();
             
-            date.innerHTML = dateFormat.format(this.today);
-            time.innerHTML = timeFormat.format(this.today);
+            this.date.innerHTML = dateFormat.format(this.today);
+            this.time.innerHTML = timeFormat.format(this.today);
 
-            }, 1000)
+         }, 1000)
      }
   }
   
- 
+
+
+
+
+
+
+
+
+   
+
+
