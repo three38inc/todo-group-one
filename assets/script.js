@@ -1,13 +1,14 @@
 
 let taskList = localStorage.getItem('taskList')
 
-if (!taskList) {
-  // initialize the value
-  taskList = []
-  // save it in localStorage
-  localStorage.setItem('TaskList', JSON.stringify(taskList))
+if (!taskList){
+
+  taskList = [];
+
+  localStorage.setItem('TaskList', JSON.stringify(taskList));
+
 } else {
-  taskList = JSON.parse(taskList)
+  taskList = JSON.parse(taskList);
   taskList= taskList.map(tObj => {
     return new Task(tObj);
   })
@@ -55,7 +56,14 @@ function displayTaskList(value, index) {
     `
 }
 
-// // Add new Todo List
+function  getTaskId(element){
+  const parentElement = element.closest('.list-item');
+  const taskId = parentElement.dataset.taskId;
+  const taskInstance = taskList.find((t) => t.id.toString() === taskId);
+  return { parentElement, taskId, taskInstance }
+}
+
+// Add new Todo List
 
 function addNewList() {
        
@@ -96,7 +104,13 @@ function addNewList() {
       selectedTag = "Low";
     }
       
-    const newTask = new Task({todoName:inputValue,type:selectedValue,tag:selectedTag,deadline:selectedDate});
+    const newTask = new Task({
+        todoName:inputValue,
+        type:selectedValue,
+        tag:selectedTag,
+        deadline:selectedDate
+    });
+
     taskList.push(newTask);
 
     saveTaskToLocalStorage();
@@ -106,12 +120,13 @@ function addNewList() {
     taskInput.value = "";
     taskType.value = "Home";
     deadline.value = "";
-
+    
   });
 }
 
 // let taskList = savedTasks
-// Filtering & sorting task based on status & da te
+
+// Filter & sort task based on status & date
 
  const tasks = document.getElementById('taskLists');
 // 
@@ -148,10 +163,10 @@ function renderTask(){
 
     const checkboxes = document.querySelectorAll('.selectItems');
     checkboxes.forEach(checkbox => checkbox.addEventListener('change', () => {
-      const parentElement = checkbox.closest('.list-item');
-      const taskId = parentElement.dataset.taskId;
-      const taskInstance = taskList.find((t) => t.id.toString() === taskId);
-    
+
+      const { taskInstance } = getTaskId(checkbox);
+
+      
       if (taskInstance) {
         taskInstance.toggleStatus(checkbox.checked);
         saveTaskToLocalStorage();
@@ -168,28 +183,24 @@ function renderTask(){
 
 
     const deleteIcons = document.querySelectorAll('.ri-delete-bin-line');
-    deleteIcons.forEach(icon => {
-      icon.addEventListener('click', () => {
-        const parentElement = icon.closest('.list-item');
-        const taskId = parentElement.dataset.taskId;
-        const taskInstance = taskList.find((t) => t.id.toString() === taskId);
-  
-        if (taskInstance) {
-          taskInstance.removeTask(taskList, taskId);
-          saveTaskToLocalStorage();
-          renderTask();
-        } else {
-          console.log("Task not found for ", taskId);
-        }
-  
-    })
-  });
+    deleteIcons.forEach(icon => icon.addEventListener('click', () => {
+      const {taskId , taskInstance } = getTaskId(icon);
+    
+      if (taskInstance) {
+        taskInstance.removeTask(taskList, taskId);
+        saveTaskToLocalStorage();
+        renderTask();
+      } else {
+        console.log("Task not found for ", taskId);
+      }
+    }));
 
 
     const closeIcon = document.getElementById('closeIcon');
     closeIcon.addEventListener('click',closeAddListContainer);
        
 }
+
 
 function saveTaskToLocalStorage(){
      localStorage.setItem('taskList',JSON.stringify(taskList));
@@ -205,5 +216,5 @@ function closeAddListContainer() {
      document.querySelector(".add-list-container").style.display = "none";
 }
 
-// Display radio buttons to select Tag Name 
+
 
