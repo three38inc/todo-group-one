@@ -5,7 +5,7 @@ class Task {
         this.todoName = todoName;
         this.type = type;
         this.tag = tag;
-        this.deadline = deadline || new Date();
+        this.deadline = deadline;
         this.status = 'pending';
     }
     // methods
