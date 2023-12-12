@@ -14,6 +14,13 @@ if (!taskList){
   })
 }
 
+function  getTaskId(element){
+      const parentElement = element.closest('.list-item');
+      const taskId = parentElement.dataset.taskId;
+      const taskInstance = taskList.find((t) => t.id.toString() === taskId);
+      return { parentElement, taskId, taskInstance }
+  }
+
  // Display all TaskLists 
 
 function displayTaskList(value, index) {
@@ -23,26 +30,31 @@ function displayTaskList(value, index) {
     }).format(new Date(value.deadline));
 
     let todayDate = new Date().getDate();
-    let deadlineDate = new Date(value.deadline).getDate();
+    let deadlineDate = value.deadline ? new Date(value.deadline).getDate() : null;
 
     let deadlineClass = '';
     if (value.status === 'completed') {
-      deadlineClass = 'completedDate';
-    } else {
-      deadlineClass = deadlineDate <= todayDate ? 'deadlineDate' : 'month';
+        deadlineClass = 'completedDate';
+    } else if( deadlineDate && deadlineDate <= todayDate){
+        deadlineClass =  'deadlineDate';
+    }else{
+        deadlineClass = 'month';
     }
     
     const completedClass = value.status === 'completed' ? 'completed' : '';
     const tagClass = { 'High': 'high', 'Low': 'low', 'Medium': 'medium' };
   
+    const taskDeadLine = value.deadline ? `
+    <div class="taskDeadLine">
+      <div class="monthBox ${deadlineClass}">${formatDate.split(" ")[1]}</div>
+      <div class="date">${formatDate.split(" ")[0]}</div>
+    </div>` : '';
+    
   return `
     <div class="list-item ${value.status}" data-task-id="${value.id}">
         <input type="checkbox" name="selectItem" id="selectItem${index}" class="selectItems" ${value.status === 'completed' ? 'checked' : ''} >
         <div class="taskContent">
-        <div class="taskDeadLine">
-        <div class="monthBox ${deadlineClass}">${formatDate.split(" ")[1]}</div>
-        <div class="date">${formatDate.split(" ")[0]}</div>
-        </div>
+         ${taskDeadLine}
         <label for="selectItems${index}" class="listDetails"> 
             <h4 class="todoName ${completedClass}">${value.todoName}</h4>
             <p class="todoType">${value.type}</p>
@@ -81,11 +93,16 @@ function addNewList() {
       alert("Please enter a valid task");
       return;
     }   
+    
+    // if(!deadline.value){
+    //   alert("Please enter deadline for the task");
+    //   return;
+    // }
 
     let inputValue = taskInput.value;
     let selectedOption = taskType.options[taskType.selectedIndex];
     let selectedValue = selectedOption.value;
-    let selectedDate = deadline.value;
+    let selectedDate = deadline.value || null;
 
     const lowTags = document.getElementById('lowTag');
     const highTags = document.getElementById('highTag');
@@ -200,7 +217,6 @@ function renderTask(){
     closeIcon.addEventListener('click',closeAddListContainer);
        
 }
-
 
 function saveTaskToLocalStorage(){
      localStorage.setItem('taskList',JSON.stringify(taskList));
