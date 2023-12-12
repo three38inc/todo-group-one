@@ -29,7 +29,8 @@ body{
   width: 350px;
   height: 800px;
   border-radius: 25px;
-  padding: 1rem 1.5rem;
+  padding: 1rem 0.8rem;
+
 }
 
 .day-header {
@@ -61,6 +62,10 @@ body{
   text-transform: uppercase;
 }
 
+ .todo-list-items{
+    overflow-y:auto;
+    height: 550px;
+}
 .list-item {
   background: white;
   opacity: 1;
@@ -75,6 +80,9 @@ body{
   margin: 10px 0px;
   transition: 0.3s ease;
   cursor: pointer;
+
+  overflow-y: auto;
+
 }
 
 
@@ -91,6 +99,7 @@ body{
   transition: transform 0.1s ease;
   cursor: pointer;
 }
+
 
 .list-item input[type="checkbox"]:checked + label h4.todoName {
   text-decoration: line-through;
