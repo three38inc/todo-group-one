@@ -24,14 +24,17 @@ function  getTaskId(element){
  // Display all TaskLists 
 
 function displayTaskList(value, index) {
-    const formatDate = new Intl.DateTimeFormat("en-GB", {
-      month: "short",
-      day: "2-digit",
-    }).format(new Date(value.deadline));
+
+  let deadlineDate = value.deadline ? new Date(value.deadline).getDate() : null;
+
+  if (isNaN(deadlineDate)) {
+      console.error('Invalid deadline date:', value.deadline);
+      deadlineDate = null; 
+  }
+  
 
     let todayDate = new Date().getDate();
-    let deadlineDate = value.deadline ? new Date(value.deadline).getDate() : null;
-
+    
     let deadlineClass = '';
     if (value.status === 'completed') {
         deadlineClass = 'completedDate';
@@ -46,8 +49,8 @@ function displayTaskList(value, index) {
   
     const taskDeadLine = value.deadline ? `
     <div class="taskDeadLine">
-      <div class="monthBox ${deadlineClass}">${formatDate.split(" ")[1]}</div>
-      <div class="date">${formatDate.split(" ")[0]}</div>
+      <div class="monthBox ${deadlineClass}">${new Intl.DateTimeFormat("en-GB", { month: "short" }).format(new Date(value.deadline))}</div>
+      <div class="date">${new Intl.DateTimeFormat("en-GB", { day: "2-digit" }).format(new Date(value.deadline))}</div>
     </div>` : '';
     
   return `
