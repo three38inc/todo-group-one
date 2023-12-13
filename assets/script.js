@@ -1,69 +1,89 @@
-// Display Today Date & Time
 
-const dateFormatOptions = {
-  weekday: "long",
-  month: "long",
-  day: "numeric",
-};
+let taskList = localStorage.getItem('taskList')
 
-const timeFormatOptions = {
-  hour: "numeric",
-  minute: "numeric",
-  second: "numeric",
-  hour12: true,
-};
+if (!taskList){
 
-const dateFormat = new Intl.DateTimeFormat("en-GB", dateFormatOptions);
-const timeFormat = new Intl.DateTimeFormat("en-GB", timeFormatOptions);
+  taskList = [];
 
-setInterval(() =>{
+  localStorage.setItem('TaskList', JSON.stringify(taskList));
 
-let today = new Date();
+} else {
+  taskList = JSON.parse(taskList);
+  taskList= taskList.map(tObj => {
+    return new Task(tObj);
+  })
+}
 
-document.getElementById("dateValue").innerHTML = dateFormat.format(today);
-document.getElementById("timeValue").innerHTML = timeFormat.format(today);
+function  getTaskId(element){
+      const parentElement = element.closest('.list-item');
+      const taskId = parentElement.dataset.taskId;
+      const taskInstance = taskList.find((t) => t.id.toString() === taskId);
+      return { parentElement, taskId, taskInstance }
+  }
 
-}, 1000)
+ // Display all TaskLists 
 
-// Display all TaskLists 
+function displayTaskList(value, index) {
 
-function displayTaskList(value,index){
+  let deadlineDate = value.deadline ? new Date(value.deadline).getDate() : null;
 
-    const formatDate = new Intl.DateTimeFormat("en-GB",{
-      month: "short",
-      day: "2-digit",
-    }).format(new Date(value.deadline));
+  deadline.min = new Date().toISOString().split("T")[0];
 
-    todayDate = new Date().getDate();
-    deadlineDate = new Date(value.deadline).getDate();
 
-    const deadlineClass = deadlineDate === todayDate ? 'deadlineDate': 'month';
-
-    const completedClass = value.status === 'completed' ? 'completed' :'';
-
-    return `
+  if (isNaN(deadlineDate)) {
+      console.error('Invalid deadline date:', value.deadline);
+      deadlineDate = null; 
+  }
+  
+    let todayDate = new Date().getDate();
+    
+    let deadlineClass = '';
+    if (value.status === 'completed') {
+        deadlineClass = 'completedDate';
+    } else if( deadlineDate && deadlineDate <= todayDate){
+        deadlineClass =  'deadlineDate';
+    }else{
+        deadlineClass = 'month';
+    }
+    
+    const completedClass = value.status === 'completed' ? 'completed' : '';
+    const tagClass = { 'High': 'high', 'Low': 'low', 'Medium': 'medium' };
+  
+    const taskDeadLine = value.deadline ? `
+    <div class="taskDeadLine">
+      <div class="monthBox ${deadlineClass}">${new Intl.DateTimeFormat("en-GB", { month: "short" }).format(new Date(value.deadline))}</div>
+      <div class="date">${new Intl.DateTimeFormat("en-GB", { day: "2-digit" }).format(new Date(value.deadline))}</div>
+    </div>` : '';
+    
+  return `
     <div class="list-item ${value.status}" data-task-id="${value.id}">
         <input type="checkbox" name="selectItem" id="selectItem${index}" class="selectItems" ${value.status === 'completed' ? 'checked' : ''} >
-        <div class="taskDeadLine">
-                <div class="${deadlineClass}">${formatDate.split(" ")[1]}</div>
-                <div class="date">${formatDate.split(" ")[0]}</div>
-        </div>
-        <label for="selectItems" class="listDetails"> 
+        <div class="taskContent">
+         ${taskDeadLine}
+        <label for="selectItems${index}" class="listDetails"> 
             <h4 class="todoName ${completedClass}">${value.todoName}</h4>
             <p class="todoType">${value.type}</p>
             <div class="tag-div">
-                <span class="todoTag high">${value.tag}</span>
+                <span class="todoTag ${tagClass[value.tag]}">${value.tag}</span>
             </div>
         </label>
-        <i class="ri-delete-bin-line" onclick="deleteTask(${value.id})"></i>
+        </div>
+        <i class="ri-delete-bin-line"></i>
     </div>
     `
 }
 
+function  getTaskId(element){
+  const parentElement = element.closest('.list-item');
+  const taskId = parentElement.dataset.taskId;
+  const taskInstance = taskList.find((t) => t.id.toString() === taskId);
+  return { parentElement, taskId, taskInstance }
+}
+
 // Add new Todo List
 
-function addNewListBtn() {
-
+function addNewList() {
+       
     let addListContainer = document.querySelector(".add-list-container");
     addListContainer.style.display = "block";
 
@@ -73,19 +93,28 @@ function addNewListBtn() {
       const taskInput = document.getElementById("inputText");
       const taskType = document.getElementById("projectList");
       const deadline =  document.getElementById("deadline");
+
+      deadline.min = new Date().toISOString().split("T")[0];
+      console.log(deadline)
     
     if (!taskInput.value) {
       alert("Please enter a valid task");
       return;
     }   
+    
+    // if(!deadline.value){
+    //   alert("Please enter deadline for the task");
+    //   return;
+    // }
 
     let inputValue = taskInput.value;
     let selectedOption = taskType.options[taskType.selectedIndex];
     let selectedValue = selectedOption.value;
-    let selectedDate = deadline.value;
+    let selectedDate = deadline.value || null;
 
     const lowTags = document.getElementById('lowTag');
     const highTags = document.getElementById('highTag');
+    const medTags = document.getElementById('medTag');
 
     let selectedTag ; 
 
@@ -93,70 +122,39 @@ function addNewListBtn() {
       selectedTag = lowTags.value;
     }else if(highTags.checked){
       selectedTag = highTags.value;
-    }else{
+    }else if(medTags.checked){
+      selectedTag = medTags.value;
+    }
+    else{
       selectedTag = "Low";
     }
       
-    const listITems = {
-        id: taskList.length+1,
-        todoName: inputValue,
-        type: selectedValue,
-        tag: selectedTag,
-        deadline: selectedDate,
-        status: "pending",
-    };
+    const newTask = new Task({
+        todoName:inputValue,
+        type:selectedValue,
+        tag:selectedTag,
+        deadline:selectedDate
+    });
 
-    taskList.unshift(listITems);
+    taskList.push(newTask);
+
+    saveTaskToLocalStorage();
 
     renderTask();
 
     taskInput.value = "";
     taskType.value = "Home";
-    highTags.value = false;
-    lowTags.value = false;
     deadline.value = "";
-
+    
   });
 }
 
+// let taskList = savedTasks
 
-// creating array to dynamically insert the values
+// Filter & sort task based on status & date
 
-let taskList = 
-[
-  {
-       "id":1,
-       "todoName": "Do yoga",
-       "type": "Home",
-       "tag": "High",
-       "deadline":"2023-11-30",
-       "status":"completed"
-   },
-     
-   {
-       "id":2,
-       "todoName": "Stand up call at 1.30PM",
-       "type": "Work",
-       "tag": "High",
-       "deadline":"2023-12-01",
-       "status":"pending"
-   }
-]
-
-taskList.push({
-    id:3,
-    todoName: "Training Session at 1PM",
-    type: "Work",
-    tag: "High",
-    deadline:'2023-12-01',
-    status:"pending", 
-});
-
-
-// Filtering & sorting task based on status & date 
-
-const tasks = document.getElementById("taskLists");
-
+ const tasks = document.getElementById('taskLists');
+// 
 function renderTask(){
 
     let newString = "";
@@ -186,70 +184,61 @@ function renderTask(){
     tasks.innerHTML = newString;
 
   
-    // event listener for checkBox , delete icon , close icons
+   // event listener for checkBox , delete icon , close icons
 
     const checkboxes = document.querySelectorAll('.selectItems');
-    checkboxes.forEach(checkbox => checkbox.addEventListener('change', function() {
-        const parentElement = checkbox.closest('.list-item');
-        const taskId = parentElement.dataset.taskId;
+    checkboxes.forEach(checkbox => checkbox.addEventListener('change', () => {
+
+      const { taskInstance } = getTaskId(checkbox);
+
       
-        let task = taskList.find(t => t.id.toString() === taskId);
-    
-        if (task) {
-            task.status = checkbox.checked ? 'completed' : 'pending';
-            renderTask(); 
-        } else {
-            console.log('Task not found for', taskId);
-        }
+      if (taskInstance) {
+        taskInstance.toggleStatus(checkbox.checked);
+        saveTaskToLocalStorage();
+        renderTask();
+      } else {
+        console.log("Task not found for ", taskId);
+      }
 
     })
     );
 
-    const deleteIcons = document.querySelectorAll('.ri-delete-bin-line');
-    deleteIcons.forEach(icon => {
-        icon.addEventListener('click', function() {
-            const taskId = icon.parentElement.id;
+    const addTask = document.getElementById('addNewListBtn');
+    addTask.addEventListener('click', addNewList);
 
-            if (taskId) {
-                deleteTask(taskId);
-            }
-        });
-    });
+
+    const deleteIcons = document.querySelectorAll('.ri-delete-bin-line');
+    deleteIcons.forEach(icon => icon.addEventListener('click', () => {
+      const {taskId , taskInstance } = getTaskId(icon);
+    
+      if (taskInstance) {
+        taskInstance.removeTask(taskList, taskId);
+        saveTaskToLocalStorage();
+        renderTask();
+      } else {
+        console.log("Task not found for ", taskId);
+      }
+    }));
+
 
     const closeIcon = document.getElementById('closeIcon');
     closeIcon.addEventListener('click',closeAddListContainer);
        
 }
 
-renderTask();
-
-
- // Delete TodoList  
-
-function deleteTask(id) {
-  const index = taskList.findIndex((task) => task.id === id);
-  if (index !== -1) {
-     taskList.splice(index, 1);
-     renderTask();
+function saveTaskToLocalStorage(){
+     localStorage.setItem('taskList',JSON.stringify(taskList));
   }
-}
+
+
+renderTask();
 
 
 // close Add list container when icon is clicked
 
 function closeAddListContainer() {
-  document.querySelector(".add-list-container").style.display = "none";
+     document.querySelector(".add-list-container").style.display = "none";
 }
-
-// Display radio buttons to select Tag Name 
-
-function selectTagLine(){
-   tagLines = document.querySelector(".tag-input .tagItems");
-   tagLines.style.display = "flex";
-   tagLines.style.marginTop = "20px";
-   tagLines.style.gap = "10px"
-}
-
 
 
 

@@ -53,7 +53,7 @@
             <div class="todo-list-items" id="taskLists">
             </div>
             
-            <button type="button" class="add-item" onclick = "addNewListBtn()">
+            <button type="button" class="add-item" id = "addNewListBtn">
               <i class="ri-add-fill"></i>
             </button>
           </div>
@@ -72,15 +72,15 @@
             <!-- todo input field -->
             <div class="text-input">
               <label for="todo">To-do</label>
-              <input type="text" id="inputText" placeholder=" " required />
+              <input type="text" id="inputText" placeholder=" " maxlength="20" required />
             </div>
 
             <!-- Projects DropDown List -->
             <div class="projects">
               <h4>Projects</h4>
               <div class="project-dropdown-list">
-                <select id="projectList">
-                  <option value="home">Home</option>
+                <select id="projectList" required>
+                  <option value="home" selected>Home</option>
                   <option value="work">Work</option>
                 </select>
               </div>
@@ -90,11 +90,11 @@
             <div class="tag-input">
               <h4>Tags</h4>
               <div class="add-icons">
-                <i class="ri-add-fill" onclick="selectTagLine()"></i><span>Add tags</span>
-                <div class="tagItems">
-                  <input type="radio" name="lowTag" id="lowTag">Low
-                  <input type="radio" name="highTag" id="highTag">High
-                </div>
+                <!-- <div class="tagItems"> -->
+                  <input type="radio" id="lowTag" name="tagName" value="Low" required><label for="lowTag">Low</label>
+                  <input type="radio" id="medTag" name="tagName" value="Medium"><label for="medTag">Medium</label>
+                  <input type="radio" id="highTag" name="tagName" value="High"><label for="highTag">High</label>
+                <!-- </div> -->
          </div>
             </div>
 
@@ -102,7 +102,7 @@
             <div class="date-input-container">
               <h4>Deadline</h4>
               <div class="date-input">
-                <input type="date" name="deadline" id="deadline" />
+                <input type="date" name="deadline" id="deadline"required/>
               </div>
             </div>
 
@@ -114,7 +114,11 @@
         </section>
       </div>
     </div>
-
+    
+    <script src="scripts/Class.js"></script>
+    <script src="scripts/Task.js"></script>
+    <script src="scripts/main.js"></script>
     <script src="assets/script.js"></script>
+    
   </body>
 </html>
