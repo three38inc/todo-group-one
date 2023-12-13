@@ -27,12 +27,14 @@ function displayTaskList(value, index) {
 
   let deadlineDate = value.deadline ? new Date(value.deadline).getDate() : null;
 
+  deadline.min = new Date().toISOString().split("T")[0];
+
+
   if (isNaN(deadlineDate)) {
       console.error('Invalid deadline date:', value.deadline);
       deadlineDate = null; 
   }
   
-
     let todayDate = new Date().getDate();
     
     let deadlineClass = '';
@@ -91,6 +93,9 @@ function addNewList() {
       const taskInput = document.getElementById("inputText");
       const taskType = document.getElementById("projectList");
       const deadline =  document.getElementById("deadline");
+
+      deadline.min = new Date().toISOString().split("T")[0];
+      console.log(deadline)
     
     if (!taskInput.value) {
       alert("Please enter a valid task");
